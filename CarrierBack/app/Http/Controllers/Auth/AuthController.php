@@ -12,12 +12,17 @@ class AuthController extends Controller
 
     //Register Function
     public function register(Request $request){
-       $user =  $request->validate([
+       $request->validate([
             'name'=>'required',
             'email'=>'required|email',
             'password'=>'required|min:8'
         ]);
 
+        if (User::where('email',$request->email)->exists()) {
+            return response()->json([
+            'message'=>'User already exists!'
+        ],409);
+        }else{
         $user = User::create([
             'name'=>$request->name,
             'email'=>$request->email,
@@ -27,11 +32,11 @@ class AuthController extends Controller
         Auth::login($user);
 
         return response()->json([
-            'message'=>'Success'
-        ],200);
-
-
+            'message'=>'Registration Success'
+        ],200);}
     }
+
+
     public function login(Request $request){
       $credentials =  $request->validate([
             'email'=>'required | email',
