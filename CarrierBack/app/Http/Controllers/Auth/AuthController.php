@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,30 +37,39 @@ class AuthController extends Controller
         ],200);}
     }
 
-
+    // Login Function
     public function login(Request $request){
-      $credentials =  $request->validate([
-            'email'=>'required | email',
-            'password'=>'required'
+try {
+    $credentials =  $request->validate([
+            'email'=>'required|email',
+            'password'=>'required|min:8'
         ]);
 
         if(Auth::attempt($credentials)){
             $user = Auth::user();
 
             return response()->json([
-                'success'=>true,
-                'data'=>$user,
+                'user'=>$user
             ],200);
 
-          //  return redirect('/welcome');
-        }
+        }else{
 
-
-
-        return response()->json([
-                'success'=>false,
-                'error'=>'Invalid Email or Password',
+            return response()->json([
+                'message'=>'Invalid Email or Password',
             ],401);
+
+        }
+        
+    }catch(\Illuminate\Validation\ValidationException $e){
+        return response()->json([
+        'errors'=>$e->errors()
+        ]);
+
+    } catch (Exception $e) {
+        return response()->json([
+        'message'=>$e->getMessage()
+        ]);
+    }
 
     }
 
@@ -71,5 +81,5 @@ class AuthController extends Controller
             'message'=>'Logout Successful'
         ],200);
     }
-    
+
 }
