@@ -27,6 +27,7 @@ class AuthController extends Controller
         $user = User::create([
             'name'=>$request->name,
             'email'=>$request->email,
+            'role'=>$request->role,
             'password'=>bcrypt($request->password)
         ]);
 
@@ -59,7 +60,7 @@ try {
             ],401);
 
         }
-        
+
     }catch(\Illuminate\Validation\ValidationException $e){
         return response()->json([
         'errors'=>$e->errors()
