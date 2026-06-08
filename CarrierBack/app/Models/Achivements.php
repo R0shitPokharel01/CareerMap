@@ -4,7 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Achivements extends Model
+class Achievements extends Model
 {
-    //
+    protected $fillable =[
+        'title','description','icon'
+    ];
+
+    public function userAchievements(){
+        return $this->hasMany(UserAchievements::class);
+    }
 }

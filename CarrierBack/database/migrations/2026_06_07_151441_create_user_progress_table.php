@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('user_progress', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('career');
-            $table->string('phase');
+            $table->string('career_id')->constrained('careers')->onDelete('cascade');
+            $table->string('phase_id')->constrained('phases')->onDelete('cascade');
             $table->enum('status',['ongoing','completed']);
             $table->timestamps();
         });

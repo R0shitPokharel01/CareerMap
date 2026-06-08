@@ -14,4 +14,11 @@ class Careers extends Model
         'status',
         'approvedBy'
     ];
+
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
+    public function phases(){
+        return $this->hasMany(Phases::class);
+    }
 }
