@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('phases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('career_id')->constrained('careers')->onDelete('cascade');
-            $table->integer('sequence_num');
+            $table->integer('sequence_num')->unique();
             $table->string('title');
             $table->longText('description');
-            $table->enum('status',['notStarted','started','completed']);
+
+            $table->integer('duration_min_months');
+            $table->integer('duration_max_months');
             $table->timestamps();
         });
     }
