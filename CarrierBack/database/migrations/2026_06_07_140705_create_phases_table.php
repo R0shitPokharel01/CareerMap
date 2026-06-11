@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
 
-            $table->integer('duration_min_months');
-            $table->integer('duration_max_months');
+            $table->string('duration_range');
+            $table->string('skills')->json();
             $table->timestamps();
         });
     }

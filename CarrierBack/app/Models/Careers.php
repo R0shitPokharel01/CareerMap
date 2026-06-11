@@ -8,11 +8,11 @@ class Careers extends Model
 {
     //
     protected $fillable = [
-        'title',
-        'description',
-        'category',
-        'status',
-        'approvedBy'
+        'title','slug','difficulty',
+        'description','salary_range',
+        'category','salary_period',
+        'status','duration','skills',
+        'demand','reviewed_by','is_published'
     ];
 
     public function users(){
