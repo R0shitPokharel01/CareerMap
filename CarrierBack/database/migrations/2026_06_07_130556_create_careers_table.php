@@ -17,8 +17,18 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
             $table->string('category');
-            $table->enum('status',['notStarted','started','completed']);
-            $table->longText('approvedBy');
+
+            $table->integer('salary_min');
+            $table->integer('salary_max');
+            $table->string('salary_period');
+
+            $table->integer('duration_min_months');
+            $table->integer('duration_max_months');
+
+            $table->enum('demand',['low','medium','high']);
+            $table->string('reviewed_by');
+            $table->boolean('is_published');
+
             $table->timestamps();
         });
     }
