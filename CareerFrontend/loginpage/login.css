@@ -1,0 +1,194 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+
+body{
+    background:#f4f6fb;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+
+.container{
+
+    width:900px;
+    background:white;
+    display:flex;
+    padding:50px;
+    box-shadow:0 10px 30px #ddd;
+
+}
+
+
+
+.left{
+    width:50%;
+}
+
+
+.brand{
+    color:#222cff;
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:60px;
+}
+
+
+.chart{
+
+    width:300px;
+    height:130px;
+    margin-top:20px;
+    border-radius:8px;
+
+}
+
+
+
+
+.login{
+
+    width:50%;
+    padding-left:50px;
+
+}
+
+
+.login h1{
+
+    font-size:28px;
+
+}
+
+
+.login small{
+
+    color:#777;
+
+}
+
+
+.buttons{
+
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+
+}
+
+
+
+.buttons button{
+
+    width:130px;
+    height:35px;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:5px;
+
+}
+
+
+
+.or{
+
+    text-align:center;
+    font-size:12px;
+    margin:15px;
+
+}
+
+
+label{
+
+    font-size:12px;
+    display:block;
+    margin-top:15px;
+
+}
+
+
+
+input{
+
+    width:100%;
+    height:38px;
+    margin-top:7px;
+    border:1px solid #ddd;
+    padding:10px;
+    border-radius:5px;
+
+}
+
+
+
+.pass{
+
+    position:relative;
+
+}
+
+
+.pass span{
+
+    position:absolute;
+    right:10px;
+    top:18px;
+    cursor:pointer;
+
+}
+
+
+
+.check{
+
+    font-size:12px;
+    margin:15px 0;
+
+}
+
+
+
+.check input{
+
+    width:auto;
+    height:auto;
+
+}
+
+
+
+.signin{
+
+    width:100%;
+    height:40px;
+    background:#2020ff;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+
+}
+
+
+
+.signup{
+
+    text-align:center;
+    font-size:12px;
+    margin-top:25px;
+
+}
+
+
+.signup b{
+
+    color:#222cff;
+
+}
