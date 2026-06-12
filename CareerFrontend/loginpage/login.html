@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <title>CareerFlow Login</title>
+    <link rel="stylesheet" href="login.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="left">
+        <div class="brand"><span>♧</span> CareerRoadmap</div>
+
+        <img
+          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71"
+          class="chart"
+        />
+      </div>
+
+      <div class="login">
+        <h1>Welcome back</h1>
+        <small>Sign in to continue your journey</small>
+
+        <div class="buttons">
+          <button>◧ Google</button>
+          <button>🟥 GitHub</button>
+        </div>
+
+        <p class="or">or use email</p>
+
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="name@company.com" />
+
+        <label>Password</label>
+        <div class="pass">
+          <input type="password" id="password" placeholder="••••••••" />
+          <span onclick="showPass()">👁</span>
+        </div>
+
+        <div class="check">
+          <input type="checkbox" />
+          Stay signed in for 30 days
+        </div>
+
+        <button class="signin" onclick="login()">Sign In</button>
+
+        <p class="signup">
+          Don't have an account?
+          <b>Create Account</b>
+        </p>
+      </div>
+    </div>
+
+    <script src="login.js"></script>
+  </body>
+</html>
