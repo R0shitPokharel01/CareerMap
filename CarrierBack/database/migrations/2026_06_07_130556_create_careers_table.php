@@ -14,16 +14,18 @@ return new class extends Migration
         Schema::create('careers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('slug');
             $table->string('title');
             $table->longText('description');
             $table->string('category');
 
-            $table->integer('salary_min');
-            $table->integer('salary_max');
+            $table->string('salary_range');
+
             $table->string('salary_period');
 
-            $table->integer('duration_min_months');
-            $table->integer('duration_max_months');
+            $table->string('duration');
+
+            $table->array('skills')->json();
 
             $table->enum('demand',['low','medium','high']);
             $table->string('reviewed_by');

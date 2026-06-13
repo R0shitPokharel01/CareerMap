@@ -11,7 +11,8 @@ class Phases extends Model
         'title',
         'description',
         'sequence_num',
-        'status'
+        'duration',
+        'skills'
     ];
 
     public function careers(){

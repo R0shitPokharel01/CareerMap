@@ -10,7 +10,10 @@ class Resources extends Model
         'phase_id',
         'title',
         'link',
-        'type'
+        'type',
+        'platform',
+        'badge',
+        'difficulty'
     ];
 
     public function phases(){

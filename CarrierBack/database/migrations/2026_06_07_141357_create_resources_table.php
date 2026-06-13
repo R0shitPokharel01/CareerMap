@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('title');
             $table->string('url');
             $table->string('type');
+            $table->enum('badge',['premium','free']);
+            $table->enum('difficulty',['easy','medium','hard','advanced']);
             $table->timestamps();
         });
     }
