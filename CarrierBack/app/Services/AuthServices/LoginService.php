@@ -1,7 +1,6 @@
 <?php
 namespace App\Services\AuthServices;
 
-//use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginService {
