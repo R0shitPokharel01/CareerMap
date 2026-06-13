@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\AuthServices\RegisterService;
 use App\Services\AuthServices\LoginService;
+
 use Exception;
 //use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -14,29 +16,27 @@ class AuthController extends Controller
 
     //Register Function
     public function register(Request $request){
-       $request->validate([
+        try{
+       $credentials = $request->validate([
             'name'=>'required',
-            'email'=>'required|email',
+            'email'=>'required|email|unique:users',
             'password'=>'required|min:8'
         ]);
 
-        if (User::where('email',$request->email)->exists()) {
+        $registerUser = new RegisterService();
+        $result = $registerUser->register($credentials);
+
+        if($result['success']){
             return response()->json([
-            'message'=>'User already exists!'
-        ],409);
-        }else{
-        $user = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'role'=>'user',
-            'password'=>bcrypt($request->password)
-        ]);
-
-        Auth::login($user);
-
+                'success'=>true,
+                'message'=>$result['message'],
+                'token'=>$result['token']
+            ]);
+        }}catch (Exception $e) {
         return response()->json([
-            'message'=>'Registration Success'
-        ],200);}
+        'message'=>$e->getMessage()
+        ]);
+        }
     }
 
     // Login Function
