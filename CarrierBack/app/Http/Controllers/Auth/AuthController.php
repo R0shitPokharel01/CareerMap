@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Services\AuthServices\LoginService;
 use Exception;
-use Illuminate\Support\Facades\Hash;
+//use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -40,39 +41,32 @@ class AuthController extends Controller
 
     // Login Function
     public function login(Request $request){
-try {
-    $credentials =  $request->validate([
+    try {
+        $credentials =  $request->validate([
             'email'=>'required|email',
             'password'=>'required|min:8'
         ]);
 
-        if(Auth::attempt($credentials)){
-            $user = Auth::user();
+        $loginUser = new LoginService();
+        $result = $loginUser->login($credentials);
 
+        if($result['success']){
             return response()->json([
-                'user'=>$user
-            ],200);
-
-        }else{
-
-            return response()->json([
-                'message'=>'Invalid Email or Password',
-            ],401);
-
+                'message'=>'Login Successful',
+                'user'=>$result['user'],
+                'token'=>$result['token']
+            ]);
         }
 
-    }catch(\Illuminate\Validation\ValidationException $e){
-        return response()->json([
-        'errors'=>$e->errors()
-        ]);
-
-    } catch (Exception $e) {
+    }catch (Exception $e) {
         return response()->json([
         'message'=>$e->getMessage()
         ]);
     }
 
     }
+
+
 
     // Logout Function
     public function logout(Request $request){
