@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="progress.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🚀 <span>Career<br>Roadmap</span>
+        </div>
+
+        <ul class="menu">
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-house"></i>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-code-branch"></i>
+                    Roadmap
+                </a>
+            </li>
+
+            <li class="active">
+                <a href="#">
+                    <i class="fa-solid fa-chart-line"></i>
+                    Progress
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-regular fa-file-lines"></i>
+                    Resources
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-trophy"></i>
+                    Achievements
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-regular fa-user"></i>
+                    Profile
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="rocket-card">
+            <h3>Small steps every day lead to big achievements.</h3>
+            <div class="rocket">🚀</div>
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+        <!-- Topbar -->
+        <div class="topbar">
+
+            <div>
+                <h1>Progress Overview</h1>
+                <p>Home > Progress</p>
+            </div>
+
+            <div class="profile-section">
+
+                <div class="notification">
+                    <i class="fa-regular fa-bell"></i>
+                    <span>2</span>
+                </div>
+
+                <div class="avatar">A</div>
+
+                <h4>Aarav Sharma</h4>
+
+            </div>
+
+        </div>
+
+        <!-- Overview Card -->
+        <div class="overview-card">
+
+            <div class="overview-left">
+
+                <h3>Overall Progress</h3>
+
+                <h1>65%</h1>
+
+                <p>You are making great progress!</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+
+            </div>
+
+            <div class="target-icon">
+                🎯
+            </div>
+
+            <div class="stats">
+
+                <div class="stat">
+                    <span>Total Tasks</span>
+                    <h3>20</h3>
+                </div>
+
+                <div class="stat">
+                    <span>Completed</span>
+                    <h3 class="green">13</h3>
+                </div>
+
+                <div class="stat">
+                    <span>Remaining</span>
+                    <h3 class="orange">7</h3>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Grid -->
+        <div class="dashboard-grid">
+
+            <!-- Roadmap Progress -->
+            <div class="card roadmap-card">
+
+                <h3>Your Roadmap Progress</h3>
+
+                <ul class="task-list">
+
+                    <li>
+                        <span>✔ HTML Basics</span>
+                        <button class="completed">Completed</button>
+                    </li>
+
+                    <li>
+                        <span>✔ CSS Fundamentals</span>
+                        <button class="completed">Completed</button>
+                    </li>
+
+                    <li>
+                        <span>✔ JavaScript Basics</span>
+                        <button class="completed">Completed</button>
+                    </li>
+
+                    <li>
+                        <span>✔ Git & GitHub</span>
+                        <button class="completed">Completed</button>
+                    </li>
+
+                    <li>
+                        <span>✔ Responsive Design</span>
+                        <button class="completed">Completed</button>
+                    </li>
+
+                    <li>
+                        <span>✔ React Basics</span>
+                        <button class="completed">Completed</button>
+                    </li>
+
+                    <li>
+                        <span>○ Node.js Fundamentals</span>
+                        <button class="pending">Pending</button>
+                    </li>
+
+                    <li>
+                        <span>○ Express.js</span>
+                        <button class="pending">Pending</button>
+                    </li>
+
+                    <li>
+                        <span>○ MongoDB Basics</span>
+                        <button class="pending">Pending</button>
+                    </li>
+
+                    <li>
+                        <span>○ Deployment</span>
+                        <button class="pending">Pending</button>
+                    </li>
+
+                </ul>
+
+                <button class="roadmap-btn">
+                    View Full Roadmap
+                </button>
+
+            </div>
+
+            <!-- Right Side -->
+            <div class="right-column">
+
+                <!-- Donut Card -->
+                <div class="card">
+
+                    <h3>Progress by Category</h3>
+
+                    <div class="chart-container">
+
+                        <div class="donut">
+                            <div class="center">
+                                <h1>65%</h1>
+                                <p>Overall</p>
+                            </div>
+                        </div>
+
+                        <div class="legend">
+
+                            <div>
+                                <span class="dot purple"></span>
+                                Frontend
+                                <b>70%</b>
+                            </div>
+
+                            <div>
+                                <span class="dot green"></span>
+                                Backend
+                                <b>40%</b>
+                            </div>
+
+                            <div>
+                                <span class="dot orange"></span>
+                                Database
+                                <b>50%</b>
+                            </div>
+
+                            <div>
+                                <span class="dot red"></span>
+                                Deployment
+                                <b>0%</b>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Achievements -->
+                <div class="card achievements">
+
+                    <div class="achieve-header">
+
+                        <h3>Recent Achievements</h3>
+
+                        <button>View All</button>
+
+                    </div>
+
+                    <div class="achievement-item">
+                        🏆 Keep Going!
+                        <span>Completed 6 tasks</span>
+                    </div>
+
+                    <div class="achievement-item">
+                        ⭐ Consistency King
+                        <span>7 days of progress</span>
+                    </div>
+
+                    <div class="achievement-item">
+                        🎯 Halfway There!
+                        <span>Completed 50%</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Bottom Banner -->
+
+        <div class="bottom-banner">
+
+            <div class="banner-left">
+
+                <div class="icon">
+                    🎯
+                </div>
+
+                <div>
+                    <h2>Great Job, Aarav! 🎉</h2>
+                    <p>
+                        You've completed 65% of your career roadmap.
+                        Keep pushing forward!
+                    </p>
+                </div>
+
+            </div>
+
+            <button class="continue-btn">
+                Continue Learning →
+            </button>
+
+        </div>
+
+    </main>
+
+    <script src="progress.js"></script>
+
+</body>
+</html>
