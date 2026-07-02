@@ -25,9 +25,9 @@ return new class extends Migration
 
             $table->string('duration');
 
-            $table->array('skills')->json();
+            $table->json('skills');
 
-            $table->enum('demand',['low','medium','high']);
+            $table->enum('demand', ['low', 'medium', 'high']);
             $table->string('reviewed_by');
             $table->boolean('is_published');
 
