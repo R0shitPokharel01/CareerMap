@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->longText('description');
 
-            $table->string('duration_range');
-            $table->string('skills')->json();
+            $table->string('duration_range')->nullable()->change();
+            $table->json('skills');
             $table->timestamps();
         });
     }

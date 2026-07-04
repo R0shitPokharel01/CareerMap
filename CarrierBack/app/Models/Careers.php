@@ -8,6 +8,7 @@ class Careers extends Model
 {
     //
     protected $fillable = [
+        'user_id',
         'title',
         'slug',
         'difficulty',
@@ -28,10 +29,10 @@ class Careers extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'user_id');
     }
     public function phases()
     {
-        return $this->hasMany(Phases::class);
+        return $this->hasMany(Phases::class, 'career_id');
     }
 }

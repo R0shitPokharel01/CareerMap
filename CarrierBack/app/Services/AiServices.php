@@ -8,15 +8,15 @@ use App\Models\Phases;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
 
 class AiServices
 {
     public function generateCareer(string $title)
     {
-
         $slug = Str::slug($title);
+
         $existing = Careers::where('slug', $slug)->first();
 
         if ($existing) {
@@ -28,68 +28,107 @@ class AiServices
         return $this->save($aiResponse, 1);
     }
 
-    public function callAI(string $title)
+    /**
+     * Call Gemini 2.5 Flash
+     */
+    private function callAI(string $title): array
     {
-        $response = Http::timeout(60)->post(
-            'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . config('services.gemini.api_key'),
-            [
-                'contents' => [
-                    [
-                        'parts' => [
-                            [
-                                'text' => $this->buildPrompt($title)
+        $response = Http::timeout(120)
+            ->acceptJson()
+            ->post(
+                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' .
+                    config('services.gemini.api_key'),
+                [
+                    "contents" => [
+                        [
+                            "parts" => [
+                                [
+                                    "text" => $this->buildPrompt($title)
+                                ]
                             ]
                         ]
+                    ],
+
+                    "generationConfig" => [
+                        "temperature" => 0.4,
+                        "topP" => 0.95,
+                        "topK" => 40,
+                        "maxOutputTokens" => 4096,
+                        "responseMimeType" => "application/json"
                     ]
-                ],
-                'generationConfig' => [
-                    'maxOutputTokens' => 4000,
-                    'responseMimeType' => 'application/json',
-                ],
-            ]
-        );
+                ]
+            );
+
         if ($response->failed()) {
-            Log::error(' API call failed', [
+
+            Log::error('Gemini API Error', [
                 'status' => $response->status(),
-                'body'   => $response->body(),
+                'body' => $response->body(),
             ]);
-            throw new \Exception('AI service unavailable. Please try again.');
+            dd($response);
+            throw new \Exception('API did not pick up your call ');
         }
 
-        // Extract the text block from Claude's response
-        $text = $response->json()['content'][0]['text'] ?? '';
+        $json = $response->json();
+        //dd($json);
 
-        // Strip markdown fences if Claude wraps the JSON in ```json ... ```
-        $text = preg_replace('/```json\s*|```/', '', $text);
+        Log::info('Gemini Response', $json);
+
+        // Extract generated text
+        $text = data_get(
+            $json,
+            'candidates.0.content.parts.0.text',
+            ''
+        );
+
+        if (empty($text)) {
+            Log::error('Gemini returned empty response', [
+                'response' => $json
+            ]);
+
+            throw new \Exception('Gemini returned an empty response.');
+        }
+
+        // Remove markdown if model accidentally returns it
+        $text = preg_replace('/^```json\s*/', '', $text);
+        $text = preg_replace('/```$/', '', $text);
         $text = trim($text);
 
         $data = json_decode($text, true);
 
-        if (json_last_error() !== JSON_ERROR_NONE || empty($data)) {
-            Log::error('Claude returned invalid JSON', ['raw' => $text]);
-            throw new \Exception('AI returned invalid data. Please try again.');
+        if (json_last_error() !== JSON_ERROR_NONE) {
+
+            Log::error('Invalid JSON returned by Gemini', [
+                'json_error' => json_last_error_msg(),
+                'raw' => $text
+            ]);
+
+            throw new \Exception('Gemini returned invalid JSON.');
         }
 
         return $data;
     }
 
-    private function save(array $aiResponse, int $UserId): Careers
+    /**
+     * Save AI response
+     */
+    private function save(array $aiResponse, int $userId): Careers
     {
-        return DB::transaction(function () use ($aiResponse, $UserId) {
+        return DB::transaction(function () use ($aiResponse, $userId) {
 
             $career = Careers::create([
-                'user_id'      => $UserId,
-                'slug'         => Str::slug($aiResponse['title']),
-                'title'        => $aiResponse['title'],
-                'description'  => $aiResponse['description'],
-                'category'     => $aiResponse['category'],
-                'salary_range' => $aiResponse['salary']['range']  ?? 'Not specified',
+                'user_id'       => 1, /* Auth::id() should be replace in controller implementation*/
+                'slug'          => Str::slug($aiResponse['title']),
+                'title'         => $aiResponse['title'],
+                'description'   => $aiResponse['description'],
+                'category'      => $aiResponse['category'],
+                'salary_range'  => $aiResponse['salary']['range'] ?? 'Not specified',
                 'salary_period' => $aiResponse['salary']['period'] ?? 'annual',
-                'duration'     => $aiResponse['duration']['label'] ?? 'Not specified',
-                'skills'       => json_encode($aiResponse['skills'] ?? []),
-                'demand'       => $aiResponse['demand'] ?? 'medium',
-                'reviewed_by'  => 'AI Generated',
-                //'is_published' => true,
+                'duration'      => $aiResponse['duration']['label'] ?? 'Not specified',
+                'skills'        => json_encode($aiResponse['skills'] ?? []),
+                'demand'        => $aiResponse['demand'] ?? 'medium',
+                'reviewed_by'   => 'AI Generated',
+                'is_published'  => true,
             ]);
 
             foreach ($aiResponse['phases'] as $phaseData) {
@@ -99,10 +138,9 @@ class AiServices
                     'sequence_num'   => $phaseData['order'],
                     'title'          => $phaseData['name'],
                     'description'    => $phaseData['description'],
-                    'duration_range' => $phaseData['duration_range'] ?? 'Not specified',
+                    'duration_ranges' => $phaseData['duration_range'] ?? 'Not specified',
                     'skills'         => json_encode($phaseData['skills'] ?? []),
                 ]);
-
 
                 foreach ($phaseData['resources'] as $resourceData) {
 
@@ -111,7 +149,7 @@ class AiServices
                         'title'      => $resourceData['title'],
                         'url'        => $resourceData['url'],
                         'type'       => $resourceData['type'],
-                        'badge'      => $resourceData['badge']      ?? 'free',
+                        'badge'      => $resourceData['badge'] ?? 'free',
                         'difficulty' => $resourceData['difficulty'] ?? 'medium',
                     ]);
                 }
@@ -121,39 +159,59 @@ class AiServices
         });
     }
 
-    // for AI prompt
-    private function buildPrompt(string $careerTitle)
+    /**
+     * Prompt
+     */
+    private function buildPrompt(string $careerTitle): string
     {
         return <<<PROMPT
-            Generate a career roadmap for : "{$careerTitle}".
+Generate a complete career roadmap for "{$careerTitle}".
 
-        Return ONLY valid JSON — no explanation, no markdown. Use this exact structure:
+Return ONLY valid JSON.
 
+
+
+Use exactly this schema:
+
+{
+  "title": "",
+  "description": "",
+  "category": "",
+  "demand": "(Low , Medium , High)",
+  "duration": {
+    "label": ""
+  },
+  "salary": {
+    "range": "",
+    "period": "annual"
+  },
+  "skills": [],
+  "phases": [
+    {
+      "order": 1,
+      "name": "",
+      "description": "",
+      "duration_range": "",
+      "skills": [],
+      "resources": [
         {
-          "title": "Career name",
-          "description": "2-3 sentence overview",
-          "category": "Development | Design | Security | Data | Management | Other",
-          "demand": "low | medium | high",
-          "duration": { "label": "e.g. 12–18 months" },
-          "salary": { "range": "e.g. $60,000 – $120,000", "period": "annual" },
-          "skills": ["skill1", "skill2", "skill3"],
-          "phases": [
-            {
-              "order": 1,
-              "name": "Phase title",
-              "description": "What the learner achieves",
-              "resources": [
-                {
-                  "title": "Resource name",
-                  "url": "https://real-url.com",
-                  "type": "article | video | course | book | platform"
-                }
-              ]
-            }
-          ]
+          "title": "",
+          "url": "",
+          "type": "course"
         }
+      ]
+    }
+  ]
+}
 
-        Rules: 4-6 phases. 2-4 resources per phase. Real URLs. Return ONLY JSON.
-        PROMPT;
+Requirements:
+
+- 4–6 phases.
+- Each phase should have 2–4 real learning resources.
+- Use real URLs.
+- Include duration_range.
+- Include skills in every phase.
+- Return ONLY JSON.
+PROMPT;
     }
 }
