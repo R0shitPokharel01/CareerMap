@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\CareerServices;
 
 use App\Models\Careers;
 use App\Models\Resources;
@@ -36,7 +36,7 @@ class AiServices
         $response = Http::timeout(120)
             ->acceptJson()
             ->post(
-                'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' .
+                'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=' .
                     config('services.gemini.api_key'),
                 [
                     "contents" => [
