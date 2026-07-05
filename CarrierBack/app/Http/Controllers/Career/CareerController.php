@@ -16,10 +16,18 @@ class CareerController extends Controller
         return response()->json($careers);
     }
 
-    public function CareerByUser(Request $request, CareerService $careerService)
+    public function careerByUser(Request $request, CareerService $careerService)
     {
         //dd(Auth::user());
-        $careers = $careerService->careerByUser(1);
+        $careers = $careerService->careerByUser(1); //Add user id later
+
+        return response()->json($careers);
+    }
+
+    public function all(Request $request, CareerService $careerService)
+    {
+
+        $careers = $careerService->all(); //Add user id later
 
         return response()->json($careers);
     }

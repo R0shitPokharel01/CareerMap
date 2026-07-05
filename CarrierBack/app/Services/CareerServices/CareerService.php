@@ -8,7 +8,7 @@ class CareerService
 {
     public function search(?string $search)
     {
-        return Careers::query()
+        return Careers::with('phases.resources')
             ->when($search, function ($query) use ($search) {
                 $query->where('title', 'LIKE', "%{$search}%")
                     ->orWhere('description', 'LIKE', "%{$search}%")
@@ -20,8 +20,13 @@ class CareerService
 
     public function careerByUser(int $userId)
     {
-        return Careers::query()
+        return Careers::with('phases.resources')
             ->where('user_id', $userId)
             ->get();
+    }
+
+    public function all()
+    {
+        return Careers::with('phases.resources')->get();
     }
 }

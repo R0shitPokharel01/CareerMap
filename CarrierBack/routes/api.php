@@ -18,10 +18,13 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/new-career', [CareerAiController::class, 'newCareer']);
 
 //  for career search
-Route::get('/careers', [CareerController::class, 'search']);
+Route::get('/careers/q', [CareerController::class, 'search']);
 
 // for Career By user
 Route::get('/careers/my-careers', [CareerController::class, 'careerByUser']);
+
+//   for all Careers
+Route::get('/careers', [CareerController::class, 'all']);
 
 Route::get('/', function () {
     return "API Working";
