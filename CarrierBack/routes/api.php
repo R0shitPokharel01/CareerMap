@@ -26,6 +26,12 @@ Route::get('/careers/my-careers', [CareerController::class, 'careerByUser']);
 //   for all Careers
 Route::get('/careers', [CareerController::class, 'all']);
 
+//     for updating career
+Route::put('/careers/update-career/{careerID}', [CareerController::class, 'update']);
+
+// for delete career
+Route::delete('/careers/delete-career/{careerID}', [CareerController::class, 'delete']);
+
 Route::get('/', function () {
     return "API Working";
 });

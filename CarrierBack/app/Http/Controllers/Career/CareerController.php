@@ -31,4 +31,22 @@ class CareerController extends Controller
 
         return response()->json($careers);
     }
+
+    public function update(Request $request, int $careerID, CareerService $careerService)
+    {
+        $career = $careerService->update($careerID, $request->all());
+
+        return response()->json([
+            'message' => 'Career updated successfully.',
+            'data' => $career
+        ]);
+    }
+
+    public function delete(int $careerID, CareerService $careerService)
+    {
+
+        $careers = $careerService->delete($careerID); //Add user id later
+
+        return response()->json($careers);
+    }
 }
