@@ -15,15 +15,35 @@ class UserManagementService
         return User::all();
     }
 
-    // Add User
-    public function addUser(array $data)
+    public function getUserById(int $id)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'role' => $data['role']
-        ]);
+        return User::findOrFail($id);
+    }
+
+    // Add User
+    public function addUser(array $credentials)
+    {
+        if (User::where('email', $credentials['email'])->exists()) {
+            return [
+                'success' => false,
+                'message' => 'User already exists!'
+            ];
+        } else {
+            $user = User::create([
+                'name' => $credentials['name'],
+                'email' => $credentials['email'],
+                'role' => $credentials['role'],
+                'password' => bcrypt($credentials['password'])
+            ]);
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return [
+                'success' => true,
+                'message' => 'Registration Success',
+                'token' => $token
+            ];
+        }
     }
 
     // Edit User
@@ -32,15 +52,11 @@ class UserManagementService
         $user = User::findOrFail($userID);
 
         $user->update([
-            'name' => $data['name'] ?? $user->name,
-            'email' => $data['email'] ?? $user->email,
-            'role' => $data['role'] ?? $user->role,
+
+            'role' => $data['role'],
         ]);
 
-        if (!empty($data['password'])) {
-            $user->password = Hash::make($data['password']);
-            $user->save();
-        }
+        //dd($user);
 
         return $user;
     }

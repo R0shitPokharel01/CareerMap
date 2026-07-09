@@ -8,14 +8,18 @@ use Illuminate\Http\Request;
 
 class CareerAiController extends Controller
 {
-    public function newCareer(Request $request)
+    public function newCareer(Request $request, AiServices $aiService)
     {
-        $careerTitle = $request->input('careerTitle');
+        $request->validate([
+            'careerTitle' => 'required|string|max:255'
+        ]);
 
-        $aiService = new AiServices();
+        try {
+            $aiService->generateCareer($request->careerTitle);
 
-        $career = $aiService->generateCareer($careerTitle);
-        return back()->with('success', 'Career generated successfully!');
-        //return response()->json($career);
+            return back()->with('success', 'Career generated successfully!');
+        } catch (\Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
     }
 }
