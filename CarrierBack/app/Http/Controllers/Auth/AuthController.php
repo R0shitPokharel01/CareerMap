@@ -16,7 +16,7 @@ class AuthController extends Controller
 {
 
     //Register Function
-    public function register(Request $request)
+    public function register(Request $request, RegisterService $registerService)
     {
         try {
             $credentials = $request->validate([
@@ -25,8 +25,8 @@ class AuthController extends Controller
                 'password' => 'required|min:8'
             ]);
 
-            $registerUser = new RegisterService();
-            $result = $registerUser->register($credentials);
+
+            $result = $registerService->register($credentials);
 
             if ($result['success']) {
                 return response()->json([
@@ -37,13 +37,13 @@ class AuthController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => 'Something Went Wrong.'
             ]);
         }
     }
 
     // Login Function
-    public function login(Request $request)
+    public function login(Request $request, LoginService $login)
     {
         try {
             $credentials =  $request->validate([
@@ -51,8 +51,7 @@ class AuthController extends Controller
                 'password' => 'required|min:8'
             ]);
 
-            $loginUser = new LoginService();
-            $result = $loginUser->login($credentials);
+            $result = $login->login($credentials);
 
             if ($result['success']) {
                 return response()->json([
@@ -63,7 +62,7 @@ class AuthController extends Controller
             }
         } catch (Exception $e) {
             return response()->json([
-                'message' => $e->getMessage()
+                'message' => 'Login failed, try again.'
             ]);
         }
     }

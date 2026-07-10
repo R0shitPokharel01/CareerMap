@@ -16,25 +16,28 @@ class CareerController extends Controller
         return response()->json($careers);
     }
 
-    public function careerByUser(Request $request, CareerService $careerService)
+    public function careerByUser(CareerService $careerService)
     {
-        //dd(Auth::user());
-        $careers = $careerService->careerByUser(1); //Add user id later
+        $careers = $careerService->careerByUser(Auth::id());
 
         return response()->json($careers);
     }
 
-    public function all(Request $request, CareerService $careerService)
+    public function all(CareerService $careerService)
     {
-
-        $careers = $careerService->all(); //Add user id later
-
-        return response()->json($careers);
+        return response()->json(
+            $careerService->all()
+        );
     }
 
     public function update(Request $request, int $careerID, CareerService $careerService)
     {
-        $career = $careerService->update($careerID, $request->all());
+        $validated = $request->validate([
+            // Add  validation rules
+
+        ]);
+
+        $career = $careerService->update($careerID, $validated);
 
         return response()->json([
             'message' => 'Career updated successfully.',
@@ -44,9 +47,10 @@ class CareerController extends Controller
 
     public function delete(int $careerID, CareerService $careerService)
     {
+        $careerService->delete($careerID);
 
-        $careers = $careerService->delete($careerID); //Add user id later
-
-        return response()->json($careers);
+        return response()->json([
+            'message' => 'Career deleted successfully.'
+        ]);
     }
 }

@@ -165,53 +165,70 @@ class AiServices
     private function buildPrompt(string $careerTitle): string
     {
         return <<<PROMPT
-Generate a complete career roadmap for "{$careerTitle}".
+You are a senior career-planning expert and curriculum designer with deep, current knowledge of the "{$careerTitle}" field — including realistic entry paths, the tools/technologies actually used in the field today, common certifications, and reputable learning platforms (Coursera, Udemy, edX, freeCodeCamp, official docs, YouTube channels, industry-specific bodies, etc.).
 
-Return ONLY valid JSON.
+TASK
+Generate a complete, realistic, non-generic career roadmap for becoming a "{$careerTitle}".
 
+OUTPUT FORMAT
+Return ONLY a single valid JSON object. No markdown formatting, no code fences, no commentary before or after, no trailing commas, no comments inside the JSON.
 
-
-Use exactly this schema:
-
+SCHEMA
 {
-  "title": "",
-  "description": "",
-  "category": "",
-  "demand": "(Low , Medium , High)",
+  "title": "string — properly capitalized career title",
+  "description": "string — 2-3 sentences: what this role does day-to-day and who it suits",
+  "category": "string — e.g. Technology, Healthcare, Design, Business, Trades, Creative",
+  "demand": "Low | Medium | High",
+  "demand_reason": "string — 1 sentence, cite a concrete factor (industry growth rate, automation exposure, hiring volume, etc.)",
+  "prerequisites": ["array of 0-4 realistic prerequisites, e.g. 'Bachelor's degree in related field', 'Basic algebra', or empty array if none"],
   "duration": {
-    "label": ""
+    "label": "string — total realistic time to job-ready, e.g. '6-12 months'"
   },
   "salary": {
-    "range": "",
-    "period": "annual"
+    "range": "string — realistic entry-to-mid salary range in USD, e.g. '$55,000 - $85,000'",
+    "period": "annual",
+    "note": "string — 1 short clause on what drives variation, e.g. 'varies significantly by region and company size'"
   },
-  "skills": [],
+  "skills": ["6-10 core skills for the whole career, ordered by importance"],
+  "tools": ["3-8 specific tools/software/technologies a working professional actually uses"],
+  "certifications": ["0-4 real, named certifications worth pursuing, or empty array if the field doesn't use them"],
+  "career_paths": ["2-4 realistic next-step roles after 3-5 years, e.g. 'Senior X', 'X Team Lead', 'Freelance X'"],
   "phases": [
     {
       "order": 1,
-      "name": "",
-      "description": "",
-      "duration_range": "",
-      "skills": [],
+      "name": "string — clear phase name",
+      "level": "beginner | intermediate | advanced",
+      "description": "string — 1-2 sentences on what's accomplished and why it matters",
+      "duration_range": "string — e.g. '4-6 weeks'",
+      "skills": ["2-5 specific, actionable skills taught in this phase"],
+      "milestone": "string — a concrete, verifiable output proving this phase is done, e.g. 'Deploy a working REST API' or 'Pass the CompTIA A+ exam'",
       "resources": [
         {
-          "title": "",
-          "url": "",
-          "type": "course"
+          "title": "string — real name of a specific course, book, cert, or tool",
+          "provider": "string — the real organization/platform/publisher, e.g. 'Coursera', 'O'Reilly', 'freeCodeCamp'",
+          "url": "string — real, currently active URL to that specific resource",
+          "type": "course | book | certification | tool | documentation | video | project",
+          "cost": "free | paid | freemium"
         }
       ]
     }
   ]
 }
 
-Requirements:
+CONTENT RULES
+- phases, ordered logically from beginner to job-ready in detail.
+- Each phase has 2-4 resources from real, well-known, field-relevant platforms — never generic filler like "Online Course Platform" or "YouTube tutorial."
+- No duplicate resources across phases.
+- Mix resource types and costs — don't make every resource a paid course.
+- Every phase needs a "milestone" that is concrete and checkable, not vague ("understand basics" is not acceptable; "build and deploy a portfolio site with 3 projects" is).
+- Skills must be actionable, not abstract: "Write SQL JOIN and subquery statements" not "Learn databases."
+- Do not reuse boilerplate phrasing across different careers — tailor description, tools, and resources specifically to "{$careerTitle}".
+- If you are not confident a specific URL is real and correct, use the provider's known official domain (e.g. their course catalog or homepage) rather than inventing a deep link.
 
-- 4–6 phases.
-- Each phase should have 2–4 real learning resources.
-- Use real URLs.
-- Include duration_range.
-- Include skills in every phase.
-- Return ONLY JSON.
+VALIDATION
+Before returning, verify: valid JSON syntax, all required fields present, phases array has 4-6 items, each phase has at least 2 resources, no duplicate resource titles.
+
+Return ONLY the JSON object.
 PROMPT;
     }
 }
