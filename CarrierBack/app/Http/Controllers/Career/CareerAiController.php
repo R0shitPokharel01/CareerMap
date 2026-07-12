@@ -16,7 +16,7 @@ class CareerAiController extends Controller
         ]);
 
         try {
-            $career = $aiService->generateCareer($request->careerTitle, 1);
+            $career = $aiService->generateCareer($request->careerTitle, $request->user()->id);
 
             return response()->json([
                 'success' => true,
