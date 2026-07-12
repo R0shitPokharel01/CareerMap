@@ -6,31 +6,41 @@ use Illuminate\Database\Eloquent\Model;
 
 class Careers extends Model
 {
-    //
     protected $fillable = [
         'user_id',
-        'title',
         'slug',
-        'difficulty',
+        'title',
         'description',
-        'salary_range',
         'category',
+        'demand',
+        'demand_reason',
+        'salary_range',
         'salary_period',
-        'status',
+        'salary_note',
         'duration',
         'skills',
-        'demand',
+        'prerequisites',
+        'tools',
+        'certifications',
+        'career_paths',
         'reviewed_by',
-        'is_published'
-    ];
-    protected $casts = [
-        'skills' => 'array',
+        'is_published',
     ];
 
-    public function users()
+    protected $casts = [
+        'skills' => 'array',
+        'prerequisites' => 'array',
+        'tools' => 'array',
+        'certifications' => 'array',
+        'career_paths' => 'array',
+        'is_published' => 'boolean',
+    ];
+
+    public function user()
     {
-        return $this->belongsToMany(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
+
     public function phases()
     {
         return $this->hasMany(Phases::class, 'career_id');

@@ -19,7 +19,7 @@ Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/new-career', [CareerAiController::class, 'newCareer']);
 
 //  for career search
-Route::get('/careers/q', [CareerController::class, 'search']);
+Route::get('/careers/search', [CareerController::class, 'search']);
 
 // for Career By user
 Route::get('/careers/my-careers', [CareerController::class, 'careerByUser']);
@@ -48,6 +48,3 @@ Route::put('/admin/users/edit-user/{userID}', [UserController::class, 'editUser'
 Route::delete('/admin/users/delete-user/{userID}', [UserController::class, 'deleteUser']);
 
 Route::get('/admin/users/{id}', [UserController::class, 'getUserById']);
-Route::get('/', function () {
-    return "API Working";
-});

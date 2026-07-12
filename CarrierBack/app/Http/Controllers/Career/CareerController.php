@@ -11,9 +11,23 @@ class CareerController extends Controller
 {
     public function search(Request $request, CareerService $careerService)
     {
-        $careers = $careerService->search($request->input('search'));
+        try {
+            $careers = $careerService->search($request->input('search'));
+            // dd($request->all());
 
-        return response()->json($careers);
+            if ($careers->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No ' . $request->input('search') . ' found.',
+                ], 404);
+            }
+            return response()->json($careers);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to search ' . $request->input('search') . '.',
+            ], 500);
+        }
     }
 
     public function careerByUser(CareerService $careerService)

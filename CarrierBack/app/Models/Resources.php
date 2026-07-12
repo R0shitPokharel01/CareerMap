@@ -9,14 +9,13 @@ class Resources extends Model
     protected $fillable = [
         'phase_id',
         'title',
+        'provider',
         'url',
         'type',
-        'platform',
-        'badge',
-        'difficulty'
+        'cost',
     ];
 
-    public function phases()
+    public function phase()
     {
         return $this->belongsTo(Phases::class, 'phase_id');
     }
