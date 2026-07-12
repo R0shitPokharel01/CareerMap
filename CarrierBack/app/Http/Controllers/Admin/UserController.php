@@ -107,10 +107,10 @@ class UserController extends Controller
     }
 
     // Delete User
-    public function deleteUser(int $userID, UserManagementService $userManagementService)
+    public function deleteUser(int $userID, UserManagementService $userManagementService, Request $request)
     {
         try {
-            $userManagementService->deleteUser($userID);
+            $userManagementService->deleteUser($userID, $request);
 
             return response()->json([
                 'message' => 'User deleted successfully.'

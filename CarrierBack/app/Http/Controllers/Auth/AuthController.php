@@ -4,27 +4,25 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Services\AuthServices\RegisterService;
 use App\Services\AuthServices\LoginService;
-
 use Exception;
-//use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+
 
 class AuthController extends Controller
 {
 
     //Register Function
+
     public function register(Request $request, RegisterService $registerService)
     {
         try {
             $credentials = $request->validate([
                 'name' => 'required',
-                'email' => 'required|email|unique:users',
+                'email' => 'required|email',
                 'password' => 'required|min:8'
             ]);
-
 
             $result = $registerService->register($credentials);
 
@@ -33,12 +31,17 @@ class AuthController extends Controller
                     'success' => true,
                     'message' => $result['message'],
                     'token' => $result['token']
-                ]);
+                ], 201);
             }
-        } catch (Exception $e) {
+
             return response()->json([
-                'message' => 'Something Went Wrong.'
-            ]);
+                'success' => false,
+                'message' => $result['message'],
+            ], 409);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Something Went Wrong.'], 500);
         }
     }
 
@@ -46,7 +49,7 @@ class AuthController extends Controller
     public function login(Request $request, LoginService $login)
     {
         try {
-            $credentials =  $request->validate([
+            $credentials = $request->validate([
                 'email' => 'required|email',
                 'password' => 'required|min:8'
             ]);
@@ -60,15 +63,17 @@ class AuthController extends Controller
                     'token' => $result['token']
                 ]);
             }
+
+            return response()->json([
+                'success' => false,
+                'message' => $result['message'],
+            ], 401);
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Login failed, try again.'
-            ]);
+            ], 500);
         }
     }
-
-
-
     // Logout Function
     public function logout(Request $request)
     {

@@ -13,13 +13,20 @@ return new class extends Migration
     {
         Schema::create('phases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('career_id')->constrained('careers')->onDelete('cascade');
+
+            $table->foreignId('career_id')
+                ->constrained('careers')
+                ->onDelete('cascade');
+
             $table->integer('sequence_num');
             $table->string('title');
             $table->longText('description');
 
-            $table->string('duration_range')->nullable()->change();
+            $table->enum('level', ['beginner', 'intermediate', 'advanced']);
+            $table->string('duration_range')->nullable();
             $table->json('skills');
+            $table->longText('milestone');
+
             $table->timestamps();
         });
     }

@@ -13,23 +13,33 @@ return new class extends Migration
     {
         Schema::create('careers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('slug');
+
+            $table->foreignId('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
+            $table->string('slug')->unique();
             $table->string('title');
             $table->longText('description');
             $table->string('category');
 
-            $table->string('salary_range');
+            $table->enum('demand', ['Low', 'Medium', 'High']);
+            $table->text('demand_reason')->nullable();
 
-            $table->string('salary_period');
+            $table->string('salary_range');
+            $table->string('salary_period')->default('annual');
+            $table->text('salary_note')->nullable();
 
             $table->string('duration');
 
             $table->json('skills');
+            $table->json('prerequisites')->nullable();
+            $table->json('tools')->nullable();
+            $table->json('certifications')->nullable();
+            $table->json('career_paths')->nullable();
 
-            $table->enum('demand', ['low', 'medium', 'high']);
-            $table->string('reviewed_by');
-            $table->boolean('is_published');
+            $table->string('reviewed_by')->default('AI Generated');
+            $table->boolean('is_published')->default(true);
 
             $table->timestamps();
         });

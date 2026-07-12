@@ -3,6 +3,7 @@
 namespace App\Services\AdminServices;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserManagementService
@@ -62,8 +63,11 @@ class UserManagementService
     }
 
     // Delete User
-    public function deleteUser(int $userID)
+    public function deleteUser(int $userID, Request $request)
     {
+        if ($userID === $request->user()->id) {
+            throw new \Exception('You cannot delete your own account.');
+        }
         $user = User::findOrFail($userID);
 
         $user->delete();

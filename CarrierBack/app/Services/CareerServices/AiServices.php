@@ -5,6 +5,7 @@ namespace App\Services\CareerServices;
 use App\Models\Careers;
 use App\Models\Resources;
 use App\Models\Phases;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -13,24 +14,32 @@ use Illuminate\Support\Str;
 
 class AiServices
 {
-    public function generateCareer(string $title)
+    public function generateCareer(string $title, int $userId): Careers
     {
-        $slug = Str::slug($title);
+        try {
+            $slug = Str::slug($title);
 
-        $existing = Careers::where('slug', $slug)->first();
+            $existing = Careers::where('slug', $slug)->first();
 
-        if ($existing) {
-            return $existing;
+            if ($existing) {
+                return $existing;
+            }
+
+            $aiResponse = $this->callAI($title);
+
+            return $this->save($aiResponse, $userId);
+        } catch (\Throwable $e) {
+
+            Log::error('Career generation failed', [
+                'title' => $title,
+                'message' => $e->getMessage(),
+            ]);
+
+            throw new \Exception('Unable to generate career roadmap.');
         }
-
-        $aiResponse = $this->callAI($title);
-
-        return $this->save($aiResponse, 1);
     }
 
-    /**
-     * Call Gemini 2.5 Flash
-     */
+
     private function callAI(string $title): array
     {
         $response = Http::timeout(120)
@@ -42,54 +51,56 @@ class AiServices
                     "contents" => [
                         [
                             "parts" => [
-                                [
-                                    "text" => $this->buildPrompt($title)
-                                ]
+                                ["text" => $this->buildPrompt($title)]
                             ]
                         ]
                     ],
-
                     "generationConfig" => [
                         "temperature" => 0.4,
                         "topP" => 0.95,
                         "topK" => 40,
-                        "maxOutputTokens" => 4096,
+                        "maxOutputTokens" => 8192,
                         "responseMimeType" => "application/json"
                     ]
                 ]
             );
 
-        if ($response->failed()) {
 
+        if ($response->status() === 429) {
+            Log::error('Gemini API rate limit exceeded', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+            dd('rate limit exceeds');
+            throw new \Exception('AI service is temporarily busy due to rate limits. Please try again in a few minutes.');
+        }
+
+        if ($response->failed()) {
             Log::error('Gemini API Error', [
                 'status' => $response->status(),
                 'body' => $response->body(),
             ]);
-            dd($response);
-            throw new \Exception('API did not pick up your call ');
+            throw new \Exception("Gemini API failed with status {$response->status()}");
         }
 
         $json = $response->json();
-        //dd($json);
+        Log::info('Gemini Response', $json ?? []);
 
-        Log::info('Gemini Response', $json);
+        if (
+            data_get($json, 'candidates.0.finishReason') === 'MAX_TOKENS'
+        ) {
+            throw new \Exception(
+                'Gemini response was truncated. Increase maxOutputTokens or shorten the prompt.'
+            );
+        }
 
-        // Extract generated text
-        $text = data_get(
-            $json,
-            'candidates.0.content.parts.0.text',
-            ''
-        );
+        $text = data_get($json, 'candidates.0.content.parts.0.text', '');
 
         if (empty($text)) {
-            Log::error('Gemini returned empty response', [
-                'response' => $json
-            ]);
-
+            Log::error('Gemini returned empty response', ['response' => $json]);
             throw new \Exception('Gemini returned an empty response.');
         }
 
-        // Remove markdown if model accidentally returns it
         $text = preg_replace('/^```json\s*/', '', $text);
         $text = preg_replace('/```$/', '', $text);
         $text = trim($text);
@@ -97,13 +108,16 @@ class AiServices
         $data = json_decode($text, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-
             Log::error('Invalid JSON returned by Gemini', [
                 'json_error' => json_last_error_msg(),
                 'raw' => $text
             ]);
-
             throw new \Exception('Gemini returned invalid JSON.');
+        }
+
+        if (empty($data['title']) || empty($data['phases']) || !is_array($data['phases'])) {
+            Log::error('Gemini JSON missing required fields', ['data' => $data]);
+            throw new \Exception('Gemini returned an incomplete career roadmap.');
         }
 
         return $data;
@@ -114,49 +128,78 @@ class AiServices
      */
     private function save(array $aiResponse, int $userId): Careers
     {
-        return DB::transaction(function () use ($aiResponse, $userId) {
+        try {
+            return DB::transaction(function () use ($aiResponse, $userId) {
 
-            $career = Careers::create([
-                'user_id'       => 1, /* Auth::id() should be replace in controller implementation*/
-                'slug'          => Str::slug($aiResponse['title']),
-                'title'         => $aiResponse['title'],
-                'description'   => $aiResponse['description'],
-                'category'      => $aiResponse['category'],
-                'salary_range'  => $aiResponse['salary']['range'] ?? 'Not specified',
-                'salary_period' => $aiResponse['salary']['period'] ?? 'annual',
-                'duration'      => $aiResponse['duration']['label'] ?? 'Not specified',
-                'skills'        => json_encode($aiResponse['skills'] ?? []),
-                'demand'        => $aiResponse['demand'] ?? 'medium',
-                'reviewed_by'   => 'AI Generated',
-                'is_published'  => true,
-            ]);
+                $career = Careers::create([
+                    'user_id'       => $userId,
+                    'slug'          => Str::slug($aiResponse['title']),
+                    'title'         => $aiResponse['title'],
+                    'description'   => $aiResponse['description'] ?? null,
+                    'category'      => $aiResponse['category'] ?? null,
+                    'salary_range'  => $aiResponse['salary']['range'] ?? 'Not specified',
+                    'salary_period' => $aiResponse['salary']['period'] ?? 'annual',
+                    'duration'      => $aiResponse['duration']['label'] ?? 'Not specified',
+                    'skills'        => $aiResponse['skills'] ?? [],
+                    'demand'        => $aiResponse['demand'] ?? 'Medium',
 
-            foreach ($aiResponse['phases'] as $phaseData) {
+                    'demand_reason' => $aiResponse['demand_reason'] ?? null,
+                    'prerequisites' => $aiResponse['prerequisites'] ?? [],
+                    'salary_note'   => $aiResponse['salary']['note'] ?? null,
+                    'tools'         => $aiResponse['tools'] ?? [],
+                    'certifications' => $aiResponse['certifications'] ?? [],
+                    'career_paths'  => $aiResponse['career_paths'] ?? [],
 
-                $phase = Phases::create([
-                    'career_id'      => $career->id,
-                    'sequence_num'   => $phaseData['order'],
-                    'title'          => $phaseData['name'],
-                    'description'    => $phaseData['description'],
-                    'duration_ranges' => $phaseData['duration_range'] ?? 'Not specified',
-                    'skills'         => json_encode($phaseData['skills'] ?? []),
+                    'reviewed_by'   => 'AI Generated',
+                    'is_published'  => true,
                 ]);
 
-                foreach ($phaseData['resources'] as $resourceData) {
+                foreach (($aiResponse['phases'] ?? []) as $phaseData) {
 
-                    Resources::create([
-                        'phase_id'   => $phase->id,
-                        'title'      => $resourceData['title'],
-                        'url'        => $resourceData['url'],
-                        'type'       => $resourceData['type'],
-                        'badge'      => $resourceData['badge'] ?? 'free',
-                        'difficulty' => $resourceData['difficulty'] ?? 'medium',
+                    if (empty($phaseData['name'])) {
+                        continue;
+                    }
+
+                    $phase = Phases::create([
+                        'career_id'      => $career->id,
+                        'sequence_num'   => $phaseData['order'] ?? null,
+                        'title'          => $phaseData['name'],
+                        'description'    => $phaseData['description'] ?? null,
+                        'duration_range' => $phaseData['duration_range'] ?? 'Not specified',
+                        'skills'         => $phaseData['skills'] ?? [],
+
+                        'level'          => $phaseData['level'] ?? null,
+                        'milestone'      => $phaseData['milestone'] ?? null,
                     ]);
-                }
-            }
 
-            return $career->load('phases.resources');
-        });
+                    foreach (($phaseData['resources'] ?? []) as $resourceData) {
+
+                        if (empty($resourceData['title']) || empty($resourceData['url']) || empty($resourceData['type'])) {
+                            continue;
+                        }
+
+                        Resources::create([
+                            'phase_id'  => $phase->id,
+                            'title'     => $resourceData['title'],
+                            'provider'  => $resourceData['provider'] ?? null,
+                            'url'       => $resourceData['url'],
+                            'type'      => $resourceData['type'],
+                            'cost'      => $resourceData['cost'] ?? 'free',
+                        ]);
+                    }
+                }
+
+                return $career->load('phases.resources');
+            });
+        } catch (\Throwable $th) {
+            Log::error('Failed to save generated career', [
+                'message' => $th->getMessage(),
+                'file'    => $th->getFile(),
+                'line'    => $th->getLine(),
+            ]);
+
+            throw new \Exception('Failed to save generated career.');
+        }
     }
 
     /**
@@ -216,6 +259,7 @@ SCHEMA
 }
 
 CONTENT RULES
+- 4-6 phases for each career
 - phases, ordered logically from beginner to job-ready in detail.
 - Each phase has 2-4 resources from real, well-known, field-relevant platforms — never generic filler like "Online Course Platform" or "YouTube tutorial."
 - No duplicate resources across phases.

@@ -8,17 +8,24 @@ class Phases extends Model
 {
     protected $fillable = [
         'career_id',
+        'sequence_num',
         'title',
         'description',
-        'sequence_num',
+        'level',
         'duration_range',
-        'skills'
+        'skills',
+        'milestone',
     ];
 
-    public function careers()
+    protected $casts = [
+        'skills' => 'array',
+    ];
+
+    public function career()
     {
         return $this->belongsTo(Careers::class, 'career_id');
     }
+
     public function resources()
     {
         return $this->hasMany(Resources::class, 'phase_id');

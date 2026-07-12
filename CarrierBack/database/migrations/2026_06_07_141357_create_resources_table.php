@@ -13,12 +13,19 @@ return new class extends Migration
     {
         Schema::create('resources', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade');
+
+            $table->foreignId('phase_id')
+                ->constrained('phases')
+                ->onDelete('cascade');
+
             $table->string('title');
-            $table->string('url');
+            $table->string('provider');
+            $table->string('url', 2048);
+
             $table->string('type');
-            $table->enum('badge',['premium','free']);
-            $table->enum('difficulty',['easy','medium','hard','advanced']);
+
+            $table->string('cost');
+
             $table->timestamps();
         });
     }
