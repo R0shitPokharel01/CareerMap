@@ -1,54 +1,179 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CareerFlow</title>
-
+    <title>CareerPath</title>
     <link rel="stylesheet" href="homepage.css" />
   </head>
+
   <body>
-    <nav>
-      <div class="logo">CareerFlow</div>
+    <header>
+      <div class="logo">CareerPath</div>
 
-      <ul>
-        <li><a href="#">Features</a></li>
-        <li><a href="#">Roadmap</a></li>
-        <li><a href="#">Resources</a></li>
-        <li><a href="#">Dashboard</a></li>
-      </ul>
+      <nav>
+        <a class="active">Home</a>
+        <a>Features</a>
+        <a>Roadmaps</a>
+        <a>Testimonials</a>
+      </nav>
 
-      <button class="login-btn">Login</button>
-    </nav>
+      <div class="icons">🔔 👤</div>
+    </header>
 
     <section class="hero">
       <div class="hero-text">
-        <p class="tagline">YOUR FUTURE STARTS HERE</p>
+        <span>Accelerate Your Future</span>
 
         <h1>
-          Plan Your Career.<br />
-          Learn The Skills.<br />
-          Achieve Your Goals.
+          Build Your Career
+          <br />
+          <b>Roadmap</b>
         </h1>
 
         <p>
-          Discover career paths, track progress, and access learning resources
-          designed to help you succeed.
+          Transform the complexity of career planning into a clear, actionable
+          sequence. Navigate your professional journey with data-driven
+          milestones and expert-curated paths.
         </p>
 
-        <div class="buttons">
-          <button class="primary-btn">Get Started</button>
-          <button class="secondary-btn">Learn More</button>
+        <button class="primary">Get Started →</button>
+
+        <button class="secondary">Explore Roadmaps</button>
+      </div>
+
+      <div class="roadmap">
+        <h3>
+          Web Dev Roadmap
+          <small>45% Complete</small>
+        </h3>
+
+        <div class="step done">✔ Foundations: HTML & CSS</div>
+
+        <div class="step progress">
+          📈 Mastering JavaScript ES6+
+
+          <div class="bar">
+            <div></div>
+          </div>
+        </div>
+
+        <div class="step lock">🔒 Frameworks: React & Next.js</div>
+      </div>
+    </section>
+
+    <section class="achievement">
+      <h2>Engineered for Achievement</h2>
+
+      <div class="feature-container">
+        <div class="feature-card">
+          <div class="icon">🗺️</div>
+
+          <h3>Roadmap Tracking</h3>
+
+          <p>
+            Visual, interactive maps that break down complex careers into
+            manageable skill blocks and milestones.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">📈</div>
+
+          <h3>Progress Analytics</h3>
+
+          <p>
+            Data-driven insights into your learning velocity, showing exactly
+            how close you are to your goals.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="icon">🏆</div>
+
+          <h3>Achievements</h3>
+
+          <p>
+            Celebrate every win with digital badges and certifications that
+            showcase your job-readiness.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="paths">
+      <h2>Find Your Path</h2>
+
+      <p>
+        Browse our most popular curated roadmaps across the tech and design
+        ecosystem.
+      </p>
+
+      <div id="careerCards"></div>
+    </section>
+
+    <section class="stories">
+      <div class="story-left">
+        <h2>Success Stories</h2>
+
+        <p>
+          Join thousands of professionals who have accelerated their careers
+          using our structured roadmaps.
+        </p>
+
+        <div class="rate-box">
+          98%
+          <br />
+          <span>JOB PLACEMENT RATE WITHIN 6 MONTHS</span>
         </div>
       </div>
 
-      <div class="hero-image">
-        <img
-          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800"
-          alt="Laptop"
-        />
+      <div class="testimonial">
+        <p>
+          "CareerPath turned my vague interest in Data Science into a
+          step-by-step reality. I went from zero to Junior Analyst in just 8
+          months."
+        </p>
+
+        <div class="person">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" />
+          <div>
+            <h4>Sarah Jenkins</h4>
+            <p>Data Analyst at TechFlow</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial">
+        <p>
+          "The visualization of the roadmap kept me motivated. Seeing that
+          progress bar fill up as I learned React was the dopamine hit I needed
+          to keep going."
+        </p>
+
+        <div class="person">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" />
+          <div>
+            <h4>Marcus Chen</h4>
+            <p>Frontend Developer at CreativeHub</p>
+          </div>
+        </div>
       </div>
     </section>
+
+    <section class="cta">
+      <h1>Ready to start your journey?</h1>
+
+      <p>
+        No more searching for tutorials. Get a structured plan designed for your
+        career goals today.
+      </p>
+
+      <button>Get Started Free</button>
+
+      <button>Talk to an Advisor</button>
+    </section>
+
+    <footer>
+      <div class="copyright">© 2026 CareerPath. All Rights Reserved.</div>
+    </footer>
 
     <script src="homepage.js"></script>
   </body>
