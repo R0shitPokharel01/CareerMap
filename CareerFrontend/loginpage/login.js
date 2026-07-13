@@ -12,7 +12,6 @@ else{
 }
 
 
-
 function login(){
 
 let email=document.getElementById("email").value;

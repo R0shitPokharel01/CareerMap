@@ -1,6 +1,7 @@
 const startBtn = document.querySelector(".primary-btn");
 
-startBtn.addEventListener("click", () => {
-    alert("Welcome to CareerFlow!");
-});
-
+if (startBtn) {
+    startBtn.addEventListener("click", () => {
+        alert("Welcome to CareerFlow!");
+    });
+}
