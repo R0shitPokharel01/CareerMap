@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerPath - User Profile</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="userprofile.css">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>CareerPath</h2>
+            <span>EARLY-CAREER NAVIGATOR</span>
+
+        </div>
+
+        <nav>
+
+            <ul>
+
+                <li>
+                    <i class="fa-solid fa-table-columns"></i>
+                    Dashboard
+                </li>
+
+                <li>
+                    <i class="fa-regular fa-map"></i>
+                    Roadmaps
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-chart-line"></i>
+                    Progress
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-trophy"></i>
+                    Achievements
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Recommendations
+                </li>
+
+                <li class="active">
+                    <i class="fa-solid fa-user"></i>
+                    Profile
+                </li>
+
+            </ul>
+
+        </nav>
+
+        <div class="logout">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Logout
+
+        </div>
+
+    </aside>
+
+
+    <!-- Main -->
+
+    <main class="main-content">
+
+        <!-- Header -->
+
+        <header class="topbar">
+
+            <div class="search">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                type="text"
+                placeholder="Search milestones...">
+
+            </div>
+
+            <div class="top-icons">
+
+                <i class="fa-regular fa-bell"></i>
+
+                <img
+                src="https://i.pravatar.cc/100?img=12">
+
+            </div>
+
+        </header>
+
+        <!-- Profile Banner -->
+
+        <section class="profile-banner">
+
+            <img
+            class="cover"
+            src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=1600">
+
+            <div class="profile-info">
+
+                <img
+                class="avatar"
+                src="https://i.pravatar.cc/200?img=12">
+
+                <div class="info">
+
+                    <h1>Alex Rivera</h1>
+
+                    <h3>
+                        Junior Software Engineer @ TechFlow
+                    </h3>
+
+                    <p>
+
+                        Passionate builder focused on creating scalable web
+                        applications. Currently navigating the path toward
+                        Senior Full-Stack Architecture. Lifelong learner and
+                        open-source enthusiast.
+
+                    </p>
+
+                </div>
+
+                <div class="buttons">
+
+                    <button class="edit-btn">
+
+                        Edit Profile
+
+                    </button>
+
+                    <button class="share-btn">
+
+                        <i class="fa-solid fa-share-nodes"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Cards -->
+
+        <section class="dashboard-grid">
+
+            <!-- Progress -->
+
+            <div class="card progress-card">
+
+                <h2>Progress Snapshot</h2>
+
+                <div class="progress-head">
+
+                    <span>Roadmap Completion</span>
+
+                    <strong>74%</strong>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="progress-fill"></div>
+
+                </div>
+
+                <div class="stats">
+
+                    <div>
+
+                        <h3>12</h3>
+
+                        <p>COURSES</p>
+
+                    </div>
+
+                    <div>
+
+                        <h3>850</h3>
+
+                        <p>HOURS</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Achievements -->
+
+            <div class="card achievement-card">
+
+                <h2>Top Achievements</h2>
+
+                <div class="achievement-list">
+
+                    <div class="achievement">
+
+                        <div class="icon">
+
+                            <i class="fa-solid fa-minus"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Fast Track Learner</h4>
+
+                            <p>
+
+                                Completed the Full-Stack Roadmap in 6 months.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="achievement">
+
+                        <div class="icon">
+
+                            <i class="fa-solid fa-code"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h4>Bug Squasher</h4>
+
+                            <p>
+
+                                Solved 50+ high-complexity algorithmic
+                                challenges.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Skills -->
+
+            <div class="card skills-card">
+
+                <h2>Verified Skills</h2>
+
+                <div class="chips">
+
+                    <span>React.js</span>
+                    <span>TypeScript</span>
+                    <span>Node.js</span>
+                    <span>System Design</span>
+                    <span>PostgreSQL</span>
+                    <span>UI/UX Basics</span>
+                    <span>Git Workflow</span>
+
+                </div>
+
+            </div>
+
+            <!-- Interests -->
+
+            <div class="card interests-card">
+
+                <h2>Career Interests</h2>
+
+                <div class="interest">
+
+                    <i class="fa-solid fa-rocket"></i>
+
+                    <div>
+
+                        <h4>Scalable Architecture</h4>
+
+                        <p>
+
+                            Focusing on microservices and cloud infrastructure.
+
+                        </p>
+
+                    </div>
+
+                    <span class="badge primary">
+
+                        PRIMARY
+
+                    </span>
+
+                </div>
+
+                <div class="interest">
+
+                    <i class="fa-solid fa-paintbrush"></i>
+
+                    <div>
+
+                        <h4>Interactive UI Development</h4>
+
+                        <p>
+
+                            Creating immersive experiences with Framer Motion.
+
+                        </p>
+
+                    </div>
+
+                    <span class="badge">
+
+                        EXPLORING
+
+                    </span>
+
+                </div>
+
+            </div>
+
+            <!-- Projects -->
+
+            <div class="card projects-card">
+
+                <h2>Recent Projects</h2>
+
+                <div class="projects">
+
+                    <div class="project">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900">
+
+                        <h4>DataStream Dashboard</h4>
+
+                        <p>
+
+                            Real-time analytics for e-commerce...
+
+                        </p>
+
+                    </div>
+
+                    <div class="project">
+
+                        <img
+                        src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=900">
+
+                        <h4>WalletWise App</h4>
+
+                        <p>
+
+                            Personal finance tracker with AI...
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+
+        <footer>
+
+            <div>
+
+                <h3>CareerPath</h3>
+
+                <p>
+
+                    © 2024 CareerPath Roadmap System.
+                    All rights reserved.
+
+                </p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <a href="#">Privacy Policy</a>
+
+                <a href="#">Terms</a>
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="userprofile.js"></script>
+
+</body>
+</html>

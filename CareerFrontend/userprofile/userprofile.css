@@ -1,0 +1,783 @@
+/* ==========================================
+   Google Font
+========================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#f5f6fc;
+    color:#222;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ==========================================
+   Sidebar
+========================================== */
+
+.sidebar{
+
+    width:250px;
+    background:#fff;
+    border-right:1px solid #e6e8f0;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+
+}
+
+.logo{
+
+    padding:28px 22px;
+
+}
+
+.logo h2{
+
+    color:#4F46E5;
+    font-size:32px;
+    font-weight:800;
+
+}
+
+.logo span{
+
+    font-size:12px;
+    color:#777;
+    letter-spacing:.6px;
+
+}
+
+.sidebar nav{
+
+    margin-top:10px;
+
+}
+
+.sidebar ul{
+
+    list-style:none;
+
+}
+
+.sidebar li{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+
+    padding:15px 24px;
+
+    cursor:pointer;
+
+    color:#4d5562;
+
+    font-weight:500;
+
+    transition:.3s;
+
+}
+
+.sidebar li:hover{
+
+    background:#f4f2ff;
+
+    color:#4F46E5;
+
+}
+
+.sidebar li i{
+
+    width:22px;
+    text-align:center;
+
+}
+
+.sidebar li.active{
+
+    background:#ece8ff;
+
+    color:#4F46E5;
+
+    border-left:5px solid #4F46E5;
+
+    font-weight:600;
+
+}
+
+.logout{
+
+    padding:30px 24px;
+
+    display:flex;
+
+    gap:15px;
+
+    align-items:center;
+
+    color:#444;
+
+    cursor:pointer;
+
+}
+
+.logout:hover{
+
+    color:#4F46E5;
+
+}
+
+/* ==========================================
+   Main Content
+========================================== */
+
+.main-content{
+
+    margin-left:250px;
+
+    width:calc(100% - 250px);
+
+}
+
+/* ==========================================
+   Header
+========================================== */
+
+.topbar{
+
+    height:72px;
+
+    background:#fff;
+
+    border-bottom:1px solid #e6e8ef;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 35px;
+
+}
+
+.search{
+
+    width:360px;
+
+    background:#f3f5fb;
+
+    border-radius:30px;
+
+    padding:12px 18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.search i{
+
+    color:#777;
+
+}
+
+.search input{
+
+    width:100%;
+
+    border:none;
+
+    background:transparent;
+
+    outline:none;
+
+    font-size:15px;
+
+}
+
+.top-icons{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+
+.top-icons i{
+
+    font-size:22px;
+
+    cursor:pointer;
+
+}
+
+.top-icons img{
+
+    width:42px;
+
+    height:42px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+/* ==========================================
+   Banner
+========================================== */
+
+.profile-banner{
+
+    margin:35px;
+
+}
+
+.cover{
+
+    width:100%;
+
+    height:210px;
+
+    border-radius:18px;
+
+    object-fit:cover;
+
+    display:block;
+
+}
+
+.profile-info{
+
+    margin-top:-55px;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:25px;
+
+    padding:0 30px;
+
+}
+
+.avatar{
+
+    width:135px;
+
+    height:135px;
+
+    border-radius:18px;
+
+    border:5px solid white;
+
+    object-fit:cover;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.12);
+
+}
+
+.info{
+
+    flex:1;
+
+    padding-top:45px;
+
+}
+
+.info h1{
+
+    font-size:46px;
+
+    font-weight:700;
+
+    color:#222;
+
+}
+
+.info h3{
+
+    margin-top:8px;
+
+    font-size:24px;
+
+    font-weight:500;
+
+    color:#666;
+
+}
+
+.info p{
+
+    margin-top:20px;
+
+    color:#666;
+
+    line-height:1.8;
+
+    max-width:760px;
+
+}
+
+.buttons{
+
+    padding-top:45px;
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.edit-btn{
+
+    background:#4F46E5;
+
+    color:white;
+
+    border:none;
+
+    padding:15px 30px;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.edit-btn:hover{
+
+    background:#4038d8;
+
+}
+
+.share-btn{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:12px;
+
+    border:1px solid #ddd;
+
+    background:white;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+}
+
+/* ==========================================
+   Dashboard Grid
+========================================== */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:340px 1fr;
+    gap:25px;
+    padding:0 35px 35px;
+    align-items:start;
+}
+
+.card{
+    background:#fff;
+    border-radius:18px;
+    padding:24px;
+    border:1px solid #ececf4;
+    box-shadow:0 2px 10px rgba(0,0,0,.03);
+}
+
+.card h2{
+    font-size:30px;
+    margin-bottom:25px;
+    color:#222;
+}
+
+/* ==========================================
+   Progress Card
+========================================== */
+
+.progress-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.progress-head span{
+    color:#666;
+    font-weight:600;
+}
+
+.progress-head strong{
+    font-size:36px;
+    color:#4F46E5;
+}
+
+.progress{
+    height:12px;
+    background:#ebeafb;
+    border-radius:30px;
+    overflow:hidden;
+    margin-bottom:30px;
+}
+
+.progress-fill{
+    width:74%;
+    height:100%;
+    background:#4F46E5;
+    border-radius:30px;
+}
+
+.stats{
+    display:flex;
+    gap:18px;
+}
+
+.stats div{
+    flex:1;
+    background:#f5f6fd;
+    border-radius:15px;
+    text-align:center;
+    padding:20px;
+}
+
+.stats h3{
+    font-size:40px;
+    color:#222;
+}
+
+.stats p{
+    color:#777;
+    font-size:14px;
+    margin-top:8px;
+}
+
+/* ==========================================
+   Achievement Card
+========================================== */
+
+.achievement-list{
+    display:flex;
+    gap:20px;
+}
+
+.achievement{
+    flex:1;
+    border:1px solid #e8e8f2;
+    border-radius:16px;
+    padding:20px;
+    display:flex;
+    gap:18px;
+    align-items:flex-start;
+}
+
+.achievement .icon{
+    width:60px;
+    height:60px;
+    border-radius:15px;
+    background:#f3f2ff;
+    color:#4F46E5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+.achievement h4{
+    font-size:22px;
+    margin-bottom:10px;
+}
+
+.achievement p{
+    color:#666;
+    line-height:1.6;
+}
+
+/* ==========================================
+   Skills
+========================================== */
+
+.chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.chips span{
+    background:#f0efff;
+    color:#4F46E5;
+    padding:10px 16px;
+    border-radius:30px;
+    font-size:14px;
+    font-weight:600;
+}
+
+/* ==========================================
+   Interests
+========================================== */
+
+.interest{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:22px;
+    background:#f8f8ff;
+    border-radius:16px;
+    margin-bottom:18px;
+}
+
+.interest i{
+    font-size:28px;
+    color:#4F46E5;
+}
+
+.interest div{
+    flex:1;
+}
+
+.interest h4{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.interest p{
+    color:#666;
+}
+
+.badge{
+    background:#ececf1;
+    color:#555;
+    padding:8px 16px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+
+.primary{
+    background:#e6e2ff;
+    color:#4F46E5;
+}
+
+/* ==========================================
+   Projects
+========================================== */
+
+.projects{
+    display:flex;
+    gap:22px;
+}
+
+.project{
+    flex:1;
+}
+
+.project img{
+    width:100%;
+    height:190px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+
+.project h4{
+    font-size:22px;
+    margin-bottom:8px;
+}
+
+.project p{
+    color:#666;
+}
+
+/* ==========================================
+   Footer
+========================================== */
+
+footer{
+    margin-top:20px;
+    padding:35px;
+    background:#fff;
+    border-top:1px solid #ececf2;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+footer h3{
+    color:#4F46E5;
+    margin-bottom:10px;
+}
+
+footer p{
+    color:#666;
+}
+
+.footer-links{
+    display:flex;
+    gap:30px;
+}
+
+.footer-links a{
+    color:#666;
+    font-weight:600;
+}
+
+.footer-links a:hover{
+    color:#4F46E5;
+}
+
+/* ==========================================
+   Hover Effects
+========================================== */
+
+.card{
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.project img{
+    transition:.35s;
+}
+
+.project:hover img{
+    transform:scale(1.03);
+}
+
+.chips span{
+    transition:.3s;
+}
+
+.chips span:hover{
+    background:#4F46E5;
+    color:#fff;
+}
+
+.achievement{
+    transition:.3s;
+}
+
+.achievement:hover{
+    border-color:#4F46E5;
+}
+
+/* ==========================================
+   Responsive
+========================================== */
+
+@media(max-width:1200px){
+
+.dashboard-grid{
+grid-template-columns:1fr;
+}
+
+}
+
+@media(max-width:900px){
+
+.sidebar{
+display:none;
+}
+
+.main-content{
+margin-left:0;
+width:100%;
+}
+
+.profile-info{
+flex-direction:column;
+}
+
+.buttons{
+padding-top:20px;
+}
+
+.topbar{
+padding:20px;
+}
+
+.search{
+width:100%;
+max-width:400px;
+}
+
+.projects{
+flex-direction:column;
+}
+
+.achievement-list{
+flex-direction:column;
+}
+
+footer{
+flex-direction:column;
+gap:20px;
+text-align:center;
+}
+
+}
+
+@media(max-width:600px){
+
+.profile-banner{
+margin:15px;
+}
+
+.dashboard-grid{
+padding:15px;
+}
+
+.info h1{
+font-size:32px;
+}
+
+.info h3{
+font-size:18px;
+}
+
+.card h2{
+font-size:22px;
+}
+
+.avatar{
+width:110px;
+height:110px;
+}
+
+}
