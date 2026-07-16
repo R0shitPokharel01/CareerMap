@@ -74,6 +74,37 @@ body{
 }
 
 
+.social-login {
+    display: flex;
+    gap: 12px;
+}
+
+.social-login button {
+    width: 90px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.social-login button img {
+    width: 18px;
+    height: 18px;
+}
+
+.social-login button:hover {
+    background: #f8f8f8;
+}
+ 
+
 .buttons{
 
     display:flex;
