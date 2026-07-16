@@ -5,12 +5,24 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Career\CareerController;
 use App\Http\Controllers\Career\CareerAiController;
 use App\Http\Controllers\Admin\UserController;
-
+use App\Http\Controllers\Auth\ForgotPasswordController;
 // for login
 Route::post('/login', [AuthController::class, 'login']);
 
 //  for register
 Route::post('/register', [AuthController::class, 'register']);
+
+Route::get('/reset-password/{token}', function (string $token) {
+    return response()->json([
+        'token' => $token,
+        'email' => request('email'),
+    ]);
+    })->name('password.reset');
+    
+
+    Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
+
+    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
     //  for logout
@@ -31,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // for delete career
     Route::delete('/careers/delete-career/{careerID}', [CareerController::class, 'delete']);
 
+    
 
     //ADMIN routes
     Route::middleware('role:admin')->group(function () {
