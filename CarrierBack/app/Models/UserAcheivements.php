@@ -1,19 +1,23 @@
 <?php
+  namespace App\Models;
 
-namespace App\Models;
+  use Illuminate\Database\Eloquent\Model;
+  
+  class UserAcheivements extends Model
+  {
+    protected $table = 'user_achivements';
 
-use Illuminate\Database\Eloquent\Model;
+    protected $fillable = ['user_id', 'achivement_id', 'earned_at'];
 
-class UserAchievements extends Model
-{
-    protected $fillable=[
-        'user_id','achievement_id'
-    ];
+    protected $casts =['earned_at' => 'datetime'];
 
-    public function user(){
+    public function achivement()
+    {
+        return $this ->belongsTo(Achivements::class);
+    }
+
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-    public function achievement(){
-        return $this->belongsTo(Achievements::class);
-    }
-}
+  }
