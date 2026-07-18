@@ -11,7 +11,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 //  for register
 Route::post('/register', [AuthController::class, 'register']);
-
+// 
 Route::middleware('auth:sanctum')->group(function () {
     //  for logout
     Route::post('/logout', [AuthController::class, 'logout']);
