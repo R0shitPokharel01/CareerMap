@@ -4,11 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserProgress extends Model
+class UserRoadmapProgress extends Model
 {
-    protected $fillable = ['user_id','career_id','phase_'];
-    public function user(){
-        return $this->belongsTo(User::class);
+    protected $table = 'user_roadmap_progress';
 
+    protected $fillable = [
+        'user_id',
+        'roadmap_id',
+        'percent_complete',
+        'status',
+        'started_at',
+        'completed_at',
+    ];
+
+    protected $casts = [
+        'started_at'   => 'datetime',
+        'completed_at' => 'datetime',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
