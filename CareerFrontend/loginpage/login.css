@@ -78,11 +78,24 @@ body{
 
     display:flex;
     gap:10px;
-    margin-top:20px;
+    margin-top:30px;
+    margin-bottom:30px;
 
 }
 
+button:active{
+    background:#2020ff;
+    color:white;
+    transform:scale(0.95);
+}
 
+button{
+    transition: 0.2s;
+}
+
+.buttons button:hover{
+    background:#f0f0f0;
+}
 
 .buttons button{
 
@@ -91,6 +104,8 @@ body{
     background:white;
     border:1px solid #ddd;
     border-radius:5px;
+    cursor:pointer;
+    transition:0.2s;
 
 }
 

@@ -25,6 +25,7 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPasswor
 
 Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
 
+// 
 Route::middleware('auth:sanctum')->group(function () {
     //  for logout
     Route::post('/logout', [AuthController::class, 'logout']);

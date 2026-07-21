@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Roadmap Admin Panel</title>
+    <link rel="stylesheet" href="adminpanel.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <h2>CareerMap</h2>
+        </div>
+
+        <ul class="menu">
+            <li class="active"><a href="#"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Users</a></li>
+            <li><a href="#"><i class="fas fa-briefcase"></i> Careers</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Courses</a></li>
+            <li><a href="#"><i class="fas fa-trophy"></i> Achievements</a></li>
+            <li><a href="#"><i class="fas fa-tasks"></i> Progress</a></li>
+            <li><a href="#"><i class="fas fa-comment"></i> Feedback</a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="#"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+
+            <div class="profile">
+                <img src="https://i.pravatar.cc/50" alt="Admin">
+                <span>Admin</span>
+            </div>
+        </div>
+
+        <!-- Cards -->
+        <div class="cards">
+
+            <div class="card">
+                <i class="fas fa-users"></i>
+                <h2 id="users">0</h2>
+                <p>Total Users</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-briefcase"></i>
+                <h2 id="careers">0</h2>
+                <p>Career Paths</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-book"></i>
+                <h2 id="courses">0</h2>
+                <p>Courses</p>
+            </div>
+
+            <div class="card">
+                <i class="fas fa-chart-bar"></i>
+                <h2 id="progress">0%</h2>
+                <p>Avg Progress</p>
+            </div>
+
+        </div>
+
+        <!-- User Table -->
+        <div class="table-section">
+            <h2>Recent Users</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Career Goal</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>john@example.com</td>
+                        <td>Software Engineer</td>
+                        <td><span class="active-status">Active</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Emma Smith</td>
+                        <td>emma@example.com</td>
+                        <td>Data Analyst</td>
+                        <td><span class="active-status">Active</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Alex Brown</td>
+                        <td>alex@example.com</td>
+                        <td>UI/UX Designer</td>
+                        <td><span class="inactive-status">Inactive</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="actions">
+            <button>Add User</button>
+            <button>Add Course</button>
+            <button>Add Career Path</button>
+            <button>Generate Report</button>
+        </div>
+
+    </div>
+</div>
+
+<script src="adminpanel.js"></script>
+
+</body>
+</html>

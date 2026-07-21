@@ -69,8 +69,9 @@ class AuthController extends Controller
                 'message' => $result['message'],
             ], 401);
         } catch (Exception $e) {
+            \Log::error('Login Error: ' . $e->getMessage());
             return response()->json([
-                'message' => 'Login failed, try again.'
+                'message' => 'Login failed, try again. roshit nigga Error ' . $e->getMessage()
             ], 500);
         }
     }
