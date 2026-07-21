@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use App\Models\User;
+use App\Notifications\CareerCreatedNotification;
 
 class AiServices
 {
@@ -187,6 +189,12 @@ class AiServices
                             'cost'      => $resourceData['cost'] ?? 'free',
                         ]);
                     }
+                }
+
+                $admins = User::where('role', 'admin')->get();
+
+                foreach ($admins as $admin) {
+                    $admin->notify(new CareerCreatedNotification($career));
                 }
 
                 return $career->load('phases.resources');
