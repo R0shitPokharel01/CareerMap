@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Auth\Events\PasswordReset;
+use Exception;
 
 class ForgotPasswordController extends Controller
 {
@@ -45,12 +46,12 @@ class ForgotPasswordController extends Controller
         //dd('This is reset pwd ');
         try {
             $request->validate([
-    'token' => ['required'],
-    'email' => ['required', 'email'],
-    'password' => ['required', 'confirmed', 'min:8']
-]);
+                'token' => ['required'],
+                'email' => ['required', 'email'],
+                'password' => ['required', 'confirmed', 'min:8']
+            ]);
 
-            
+
             $status = Password::reset(
 
                 $request->only(

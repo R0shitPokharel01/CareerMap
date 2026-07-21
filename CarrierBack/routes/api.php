@@ -6,6 +6,7 @@ use App\Http\Controllers\Career\CareerController;
 use App\Http\Controllers\Career\CareerAiController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\NotificationController;
 // for login
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -17,12 +18,12 @@ Route::get('/reset-password/{token}', function (string $token) {
         'token' => $token,
         'email' => request('email'),
     ]);
-    })->name('password.reset');
-    
+})->name('password.reset');
 
-    Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
 
-    Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
+Route::post('/forgot-password', [ForgotPasswordController::class, 'forgotPassword']);
+
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->group(function () {
     //  for logout
@@ -43,7 +44,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // for delete career
     Route::delete('/careers/delete-career/{careerID}', [CareerController::class, 'delete']);
 
-    
+
+    Route::get('/notifications', [NotificationController::class, 'index']);
+
+    Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+
+    Route::put('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
 
     //ADMIN routes
     Route::middleware('role:admin')->group(function () {

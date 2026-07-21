@@ -5,6 +5,7 @@ namespace App\Services\AuthServices;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 
 class RegisterService
 {
@@ -25,6 +26,8 @@ class RegisterService
                 'role' => 'user',
                 'password' => bcrypt($credentials['password'])
             ]);
+
+            $user->notify(new WelcomeNotification());
 
             $token = $user->createToken('auth_token')->plainTextToken;
 
