@@ -6,15 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserAchievements extends Model
 {
-  protected $table = 'user_achivements';
+  protected $table = 'user_achievements';
 
-  protected $fillable = ['user_id', 'achivement_id', 'earned_at'];
+  protected $fillable = ['user_id', 'achievement_id', 'earned_at'];
 
   protected $casts = ['earned_at' => 'datetime'];
 
-  public function achivement()
+  public function achievement()
   {
-    return $this->belongsTo(Achivements::class);
+    return $this->belongsTo(Achivements::class, 'achievement_id');
   }
 
   public function user()

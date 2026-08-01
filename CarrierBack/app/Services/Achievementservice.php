@@ -80,8 +80,7 @@ class AchievementService
             return false;
         }
 
-        return $streak->current_streak >= ($condition['days'] ?? 1)
-            || $streak->longest_streak >= ($condition['days'] ?? 1);
+        return $streak->current_streak >= ($condition['days'] ?? 1);
     }
 
     private function checkProfileComplete(User $user): bool
