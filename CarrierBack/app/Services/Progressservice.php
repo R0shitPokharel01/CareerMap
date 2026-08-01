@@ -77,7 +77,7 @@ class ProgressService
 
         $completed = UserTaskProgress::where('user_id', $user->id)
                                      ->where('roadmap_id', $roadmapId)
-                                     ->where('status', 'completed')
+                                    ->where('status', 'completed')
                                      ->count();
 
         $percent = $total > 0 ? (int) round(($completed / $total) * 100) : 0;
@@ -113,7 +113,7 @@ class ProgressService
         $yesterday = Carbon::yesterday()->toDateString();
         $lastActive = $streak->last_active_date?->toDateString();
 
-        // Already counted today — no change needed
+        //Already counted today  no change needed
         if ($lastActive === $today) {
             return $streak;
         }
@@ -133,12 +133,8 @@ class ProgressService
         return $streak;
     }
 
-    // ── Profile Summary ────────────────────────────────────────────────────
-
-    /**
-     * Returns a complete progress summary for the user's profile page.
-     * This powers the Profile / Progress Tracking section.
-     */
+    //Profile Summary 
+    //For Returning a complete progress summary for the user's profile page.This powers the Profile / Progress Tracking section.
     public function getProfileSummary(User $user): array
     {
         $roadmaps = UserRoadmapProgress::where('user_id', $user->id)->get();
