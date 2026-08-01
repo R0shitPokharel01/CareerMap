@@ -19,11 +19,12 @@ use Illuminate\Support\Facades\Auth;
  *  - Getting roadmap progress
  *  - Getting the full profile summary (progress tracking page)
  */
-class ProgressController extends Controller
+class UserProgressController extends Controller
 {
     public function __construct(
         private ProgressService $progressService
     ) {}
+
 
     // POST /api/user/tasks/{taskId}/start
     // Mark a task as in_progress
@@ -55,8 +56,8 @@ class ProgressController extends Controller
 
         // Get the updated roadmap progress after completion
         $roadmapProgress = UserRoadmapProgress::where('user_id', $user->id)
-                                ->where('roadmap_id', $request->roadmap_id)
-                                ->first();
+            ->where('roadmap_id', $request->roadmap_id)
+            ->first();
 
         return response()->json([
             'message'          => 'Task completed!',
@@ -72,12 +73,12 @@ class ProgressController extends Controller
         $user = Auth::user();
 
         $progress = UserRoadmapProgress::where('user_id', $user->id)
-                        ->where('roadmap_id', $roadmapId)
-                        ->first();
+            ->where('roadmap_id', $roadmapId)
+            ->first();
 
         $tasks = UserTaskProgress::where('user_id', $user->id)
-                    ->where('roadmap_id', $roadmapId)
-                    ->get();
+            ->where('roadmap_id', $roadmapId)
+            ->get();
 
         return response()->json([
             'roadmap_id'       => $roadmapId,
@@ -106,8 +107,8 @@ class ProgressController extends Controller
         $user = Auth::user();
 
         $roadmaps = UserRoadmapProgress::where('user_id', $user->id)
-                        ->orderByDesc('updated_at')
-                        ->get();
+            ->orderByDesc('updated_at')
+            ->get();
 
         return response()->json([
             'total'    => $roadmaps->count(),
