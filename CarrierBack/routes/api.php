@@ -48,6 +48,19 @@ Route::middleware('auth:sanctum')->group(function () {
     // for delete career
     Route::delete('/careers/delete-career/{careerID}', [CareerController::class, 'delete']);
 
+    //for user acheivements endpoints
+    Route::get('/achievements/earned',  [UserAchievementController::class, 'earned']);
+    Route::get('/achievements',         [UserAchievementController::class, 'index']);
+    Route::post('/achievements/check',  [UserAchievementController::class, 'check']);
+
+    //for user progress endpoints
+    Route::post('/tasks/{taskId}/start',               [ProgressController::class, 'startTask']);
+    Route::post('/tasks/{taskId}/complete',            [ProgressController::class, 'completeTask']);
+    Route::get('/roadmaps/{roadmapId}/progress',       [ProgressController::class, 'roadmapProgress']);
+    Route::get('/progress/summary',                    [ProgressController::class, 'summary']);
+    Route::get('/progress/roadmaps',                   [ProgressController::class, 'allRoadmaps']);
+
+
 
     Route::get('/notifications', [NotificationController::class, 'index']);
 
@@ -75,6 +88,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
         //get user by id
         Route::get('/admin/users/{id}', [UserController::class, 'getUserById']);
+
+    // for admin achievement endpoints
+    Route::get('/achievements/stats',              [AdminAchievementController::class, 'stats']);
+    Route::get('/achievements',                    [AdminAchievementController::class, 'index']);
+    Route::post('/achievements',                   [AdminAchievementController::class, 'store']);
+    Route::get('/achievements/{achievement}',      [AdminAchievementController::class, 'show']);
+    Route::put('/achievements/{achievement}',      [AdminAchievementController::class, 'update']);
+    Route::patch('/achievements/{achievement}/toggle', [AdminAchievementController::class, 'toggle']);
+    Route::delete('/achievements/{achievement}',   [AdminAchievementController::class, 'destroy']);
     });
 });
 
