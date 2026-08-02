@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\UserRoadmapProgress;
 use App\Models\UserTaskProgress;
 use App\Models\UserStreak;
-use App\Models\UserAchievement;
+use App\Models\UserAchievements;
 use Carbon\Carbon;
 
 //ProgressService Handles all progress tracking for roadmaps, tasks, and streaks.
@@ -22,7 +22,7 @@ class ProgressService
     //Task Progress 
     //Mark a task as completed.
     //Also recalculates the parent roadmap's overall progress.
-    
+
     public function completeTask(User $user, int $taskId, int $roadmapId): UserTaskProgress
     {
         $task = UserTaskProgress::updateOrCreate(
@@ -45,7 +45,7 @@ class ProgressService
     }
 
     // Mark a task as in_progress (user has started it).
-     
+
     public function startTask(User $user, int $taskId, int $roadmapId): UserTaskProgress
     {
         $task = UserTaskProgress::updateOrCreate(
@@ -72,13 +72,13 @@ class ProgressService
     public function recalculateRoadmapProgress(User $user, int $roadmapId): UserRoadmapProgress
     {
         $total = UserTaskProgress::where('user_id', $user->id)
-                                 ->where('roadmap_id', $roadmapId)
-                                 ->count();
+            ->where('roadmap_id', $roadmapId)
+            ->count();
 
         $completed = UserTaskProgress::where('user_id', $user->id)
-                                     ->where('roadmap_id', $roadmapId)
-                                    ->where('status', 'completed')
-                                     ->count();
+            ->where('roadmap_id', $roadmapId)
+            ->where('status', 'completed')
+            ->count();
 
         $percent = $total > 0 ? (int) round(($completed / $total) * 100) : 0;
 
@@ -140,23 +140,23 @@ class ProgressService
         $roadmaps = UserRoadmapProgress::where('user_id', $user->id)->get();
         $streak   = UserStreak::where('user_id', $user->id)->first();
 
-        $earnedAchievements = UserAchievement::with('achievement')
-                                ->where('user_id', $user->id)
-                                ->orderByDesc('earned_at')
-                                ->get();
+        $earnedAchievements = UserAchievements::with('achievement')
+            ->where('user_id', $user->id)
+            ->orderByDesc('earned_at')
+            ->get();
 
         $totalTasks     = UserTaskProgress::where('user_id', $user->id)->count();
         $completedTasks = UserTaskProgress::where('user_id', $user->id)
-                                         ->where('status', 'completed')
-                                         ->count();
+            ->where('status', 'completed')
+            ->count();
 
         return [
             // Roadmap stats
             'roadmaps_started'    => $roadmaps->where('status', 'in_progress')->count(),
             'roadmaps_completed'  => $roadmaps->where('status', 'completed')->count(),
             'overall_progress'    => $roadmaps->count() > 0
-                                        ? round($roadmaps->avg('percent_complete'), 1)
-                                        : 0,
+                ? round($roadmaps->avg('percent_complete'), 1)
+                : 0,
 
             // Task stats
             'total_tasks'         => $totalTasks,

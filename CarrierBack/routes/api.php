@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Career\CareerController;
 use App\Http\Controllers\Career\CareerAiController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\NotificationController;
@@ -34,6 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/new-career', [CareerAiController::class, 'newCareer']);
 
 
+    // for dashboard
+    Route::get('/user/dashboard', [DashboardController::class, 'index']);
 
 
     //  for career search

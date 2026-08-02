@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Models;
 
@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Achivements extends Model
 {
     use HasFactory;
+
+    protected $table = 'achievements';
 
     protected $fillable = [
         'title',
@@ -29,10 +31,10 @@ class Achivements extends Model
     //All the users who earned this achievement
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_achivements')
-        ->withPivot('earned_at')
-        ->withTimestamps();
-        }
+        return $this->belongsToMany(User::class, 'user_achievements')
+            ->withPivot('earned_at')
+            ->withTimestamps();
+    }
 
     //Only return active achievements
     public function scopeActive($query)
