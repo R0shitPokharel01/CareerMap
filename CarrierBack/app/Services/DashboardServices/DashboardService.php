@@ -3,7 +3,7 @@
 namespace App\Services\DashboardServices;
 
 use App\Http\Controllers\User\UserProgressController;
-use App\Http\Controllers\User\UserAcheivementsController;
+use App\Http\Controllers\User\UserAchievementsController;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +12,7 @@ class DashboardService
     public function index(
         Request $request,
         UserProgressController $progressController,
-        UserAcheivementsController $userAchievementsController
+        UserAchievementsController $userAchievementsController
     ) {
 
         return [
