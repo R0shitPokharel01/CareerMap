@@ -8,9 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // ✅ Drop all first to avoid "already exists" error
+        Schema::dropIfExists('user_streaks');
+        Schema::dropIfExists('user_task_progress');
+        Schema::dropIfExists('user_roadmap_progress');
+
         Schema::create('user_roadmap_progress', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->unsignedBigInteger('roadmap_id');
             $table->integer('percent_complete')->default(0);
             $table->enum('status', ['not_started', 'in_progress', 'completed'])->default('not_started');
@@ -22,7 +27,7 @@ return new class extends Migration
 
         Schema::create('user_task_progress', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('roadmap_id');
             $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
@@ -31,10 +36,11 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('user_streak', function (Blueprint $table) {
+        Schema::create('user_streaks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->unique();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->unique();
             $table->integer('current_streak')->default(0);
+            $table->integer('longest_streak')->default(0);
             $table->date('last_active_date')->nullable();
             $table->timestamps();
         });
@@ -42,7 +48,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('user_streak');
+        Schema::dropIfExists('user_streaks');
         Schema::dropIfExists('user_task_progress');
         Schema::dropIfExists('user_roadmap_progress');
     }

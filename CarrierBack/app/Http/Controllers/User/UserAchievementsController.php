@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
  * -see only their earned achievements
  * -trigger a check after completing a task
  */
-class UserAcheivementsController extends Controller
+class UserAchievementsController extends Controller
 {
     public function __construct(
         private AchievementService $achievementService
