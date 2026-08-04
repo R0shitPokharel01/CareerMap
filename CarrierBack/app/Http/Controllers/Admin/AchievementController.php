@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Achievement;
+use App\Models\Achivements;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -23,9 +23,9 @@ class AchievementController extends Controller
     // GET /api/admin/achievements
     public function index(): JsonResponse
     {
-        $achievements = Achievement::withCount('users')
-                                   ->latest()
-                                   ->paginate(15);
+        $achievements = Achivements::withCount('users')
+            ->latest()
+            ->paginate(15);
 
         return response()->json($achievements);
     }
@@ -44,7 +44,7 @@ class AchievementController extends Controller
             'is_active'   => 'sometimes|boolean',
         ]);
 
-        $achievement = Achievement::create($data);
+        $achievement = Achivements::create($data);
 
         return response()->json([
             'message'     => 'Achievement created successfully.',
@@ -53,7 +53,7 @@ class AchievementController extends Controller
     }
 
     // GET /api/admin/achievements/{id}
-    public function show(Achievement $achievement): JsonResponse
+    public function show(Achivements $achievement): JsonResponse
     {
         $achievement->loadCount('users');
         $achievement->load([
@@ -64,7 +64,7 @@ class AchievementController extends Controller
     }
 
     // PUT /api/admin/achievements/{id}
-    public function update(Request $request, Achievement $achievement): JsonResponse
+    public function update(Request $request, Achivements $achievement): JsonResponse
     {
         $data = $request->validate([
             'title'       => 'sometimes|string|max:100',
@@ -86,7 +86,7 @@ class AchievementController extends Controller
     }
 
     // PATCH /api/admin/achievements/{id}/toggle
-    public function toggle(Achievement $achievement): JsonResponse
+    public function toggle(Achivements $achievement): JsonResponse
     {
         $achievement->update(['is_active' => !$achievement->is_active]);
 
@@ -97,7 +97,7 @@ class AchievementController extends Controller
     }
 
     // DELETE /api/admin/achievements/{id}
-    public function destroy(Achievement $achievement): JsonResponse
+    public function destroy(Achivements $achievement): JsonResponse
     {
         $achievement->delete();
 
@@ -109,7 +109,7 @@ class AchievementController extends Controller
     // GET /api/admin/achievements/stats
     public function stats(): JsonResponse
     {
-        $achievements = Achievement::withCount('users')->get()
+        $achievements = Achivements::withCount('users')->get()
             ->map(fn($a) => [
                 'id'        => $a->id,
                 'title'     => $a->title,

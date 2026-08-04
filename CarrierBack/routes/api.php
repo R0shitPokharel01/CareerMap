@@ -8,6 +8,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Admin\AchievementController as AdminAchievementController;
+use App\Http\Controllers\User\UserAchievementsController as UserAchievementController;
+
+use App\Http\Controllers\User\ProgressController;
+
 // for login
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -49,9 +54,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/careers/delete-career/{careerID}', [CareerController::class, 'delete']);
 
     //for user acheivements endpoints
-    Route::get('/achievements/earned',  [UserAchievementController::class, 'earned']);
-    Route::get('/achievements',         [UserAchievementController::class, 'index']);
-    Route::post('/achievements/check',  [UserAchievementController::class, 'check']);
+   Route::get('/user/achievements/earned', [UserAchievementController::class, 'earned']);
+
+Route::get('/user/achievements',        [UserAchievementController::class, 'index']);
+Route::post('/user/achievements/check', [UserAchievementController::class, 'check']);
 
     //for user progress endpoints
     Route::post('/tasks/{taskId}/start',               [ProgressController::class, 'startTask']);
@@ -64,7 +70,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/notifications', [NotificationController::class, 'index']);
 
-    Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    // Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 
     Route::put('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
 

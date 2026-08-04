@@ -219,7 +219,7 @@ class AiServices
 You are a senior career-planning expert and curriculum designer with deep, current knowledge of the "{$careerTitle}" field — including realistic entry paths, the tools/technologies actually used in the field today, common certifications, and reputable learning platforms (Coursera, Udemy, edX, freeCodeCamp, official docs, YouTube channels, industry-specific bodies, etc.).
 
 TASK
-Generate a complete, realistic, non-generic career roadmap for becoming a "{$careerTitle}".
+Generate a complete, realistic, non-generic career roadmap for becoming a "{$careerTitle} as per industry standards in Nepal with a focus on local opportunities and challenges faced by professionals in the country in current context".
 
 OUTPUT FORMAT
 Return ONLY a single valid JSON object. No markdown formatting, no code fences, no commentary before or after, no trailing commas, no comments inside the JSON.
@@ -236,7 +236,7 @@ SCHEMA
     "label": "string — total realistic time to job-ready, e.g. '6-12 months'"
   },
   "salary": {
-    "range": "string — realistic entry-to-mid salary range in USD, e.g. '$55,000 - $85,000'",
+    "range": "string — realistic entry-to-mid salary range in NPR, e.g. '₹55,000 - ₹85,000'",
     "period": "annual",
     "note": "string — 1 short clause on what drives variation, e.g. 'varies significantly by region and company size'"
   },

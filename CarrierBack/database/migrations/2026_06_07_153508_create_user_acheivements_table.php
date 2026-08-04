@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_achievements', function (Blueprint $table) {
             $table->id();
-            $table->foreign('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('achievement_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('achievement_id')->constrained('achievements')->cascadeOnDelete();
             $table->timestamp('earned_at');
             $table->unique(['user_id', 'achievement_id']); //earn each only once
             $table->timestamps();

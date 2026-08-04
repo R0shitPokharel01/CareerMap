@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\User\UserProgressController;
-use App\Http\Controllers\User\UserAcheivementsController as UserAchievementsController;
+use App\Http\Controllers\User\UserAchievementsController as UserAchievementsController;
 use App\Services\DashboardServices\DashboardService;
 use Illuminate\Http\Request;
 
