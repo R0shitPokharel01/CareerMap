@@ -21,11 +21,14 @@ align-items:center;
 background:white;
 border-top:2px solid #7654ff;
 font-size:13px;
+cursor:pointer;
 
 }
 
 .signin{
     margin-right:25px;
+    cursor:pointer;
+    
 }
 
 .logo{
@@ -87,7 +90,7 @@ background:#f0edff;
 .stats{
 display:flex;
 justify-content:center;
-gap:15px;
+gap:90px;
 margin-top:35px;
 }
 
@@ -112,7 +115,7 @@ color:#4e29db;
 .mission{
 display:flex;
 justify-content:center;
-gap:80px;
+gap:180px;
 padding:45px 200px;
 }
 
@@ -135,10 +138,19 @@ width:500px;
 
 .quote{
 background:white;
-padding:25px;
-width:280px;
+    width:330px;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+    border:1px solid #ece8ff;
 }
 
+.quote-text{
+    font-size:16px;
+    line-height:1.7;
+    color:#333;
+    margin-bottom:25px;
+}
 
 
 
@@ -157,9 +169,10 @@ color:#222;
 
 
 .works > p{
-font-size:12px;
-color:#666;
-margin-bottom:35px;
+font-size:15px;
+font-weight:500;
+color:#444;
+margin-bottom:40px;
 }
 
 
@@ -171,18 +184,15 @@ gap:18px;
 }
 
 
-
 .card{
-background:white;
-width:300px;
-height:130px;
-padding:18px;
-border-radius:7px;
-text-align:left;
-position:relative;
-overflow:hidden;
-box-shadow:0 2px 10px rgba(0,0,0,0.04);
+    background:white;
+    width:220px;
+    height:180px;      
+    padding:20px;
+    border-radius:8px;
+    text-align:left;
 }
+
 
 
 
@@ -207,31 +217,32 @@ padding:5px 8px;
 border-radius:20px;
 }
 
-
-
-.card h3{
-font-size:15px;
-margin-top:15px;
-color:#222;
+.step-icon{
+    width:34px;
+    height:34px;
+    margin-bottom:12px;
 }
 
-
+.card h3{
+    font-size:15px;
+    margin:8px 0;
+    color:#222;
+}
 
 .card p{
-font-size:11px;
-color:#666;
-line-height:16px;
-margin-top:8px;
+    font-size:13px;
+    color:#444;
+    line-height:18px;
 }
 
 
 .cards{
-display:flex;
-justify-content:center;
-gap:15px;
-margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:95px;  
+    margin-top:40px;
+    flex-wrap:wrap;
 }
-
 
 
 .card{

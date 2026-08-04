@@ -44,23 +44,24 @@ body{
 
 
 .menu{
-cursor:pointer;
+display:flex;
+    align-items:center;
+    gap:15px;
     padding:18px 35px;
-    font-size:17px;
-    display:flex;
-    gap:20px;
-    color:#555;
+    cursor:pointer;
 }
 
+.menu-icon{
+    width:22px;
+    height:22px;
+}
 
 .menu.active{
-
     background:#eeeaff;
-    color:#3927c9;
-    border-left:5px solid #3f2de0;
-
+    color:#4338CA;
+    border-left:4px solid #4338CA;
+    border-radius:10px;
 }
-
 
 
 .logout{
@@ -107,15 +108,21 @@ cursor:pointer;
 
 .search{
 
+    display:flex;
+    align-items:center;
+    gap:10px;
     height:65px;
     border-bottom:1px solid #ddd;
     padding:18px 40px;
-    color:#777;
     background:white;
 
 }
 
 
+.search-icon{
+    width:20px;
+    height:20px;
+}
 .content{
 
     display:flex;
@@ -267,6 +274,18 @@ border-radius:10px;
 
 }
 
+.logout{
+    position:absolute;
+    bottom:100px;
+    left:0;
+    width:100%;
+}
+
+.small img{
+    width:24px;
+    height:24px;
+    vertical-align:middle;
+}
 
 
 .tip{
@@ -283,7 +302,16 @@ height:205px;
 
 }
 
+.tip h3{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
+.tip-icon{
+    width:30px;
+    height:30px;
+}
 
 .tip p{
 
@@ -474,31 +502,23 @@ canvas{
 
 
 .skills{
-
-    display:flex;
-
-    flex-wrap:wrap;
-
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
     gap:15px;
-
     margin-top:25px;
-
 }
 
 .skills span{
-
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:50px;
     background:#f3ecff;
-
     color:#6c4bd7;
-
-    padding:12px 20px;
-
-    border-radius:30px;
-
-    font-size:15px;
-
     border:1px solid #d7c9ff;
-
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
 }
 
 
@@ -585,7 +605,18 @@ footer{
 
 }
 
+.welcome button:active,
+.add:active,
+.float:active{
+    background:#2f25b8;
+    color:white;
+    transform:scale(0.96);
+}
 
+.clicked{
+    background:#2f25b8 !important;
+    color:white !important;
+}
 
 @media(max-width:900px){
 
