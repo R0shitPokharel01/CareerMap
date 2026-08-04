@@ -106,13 +106,46 @@ class UserProgressController extends Controller
     {
         $user = Auth::user();
 
-        $roadmaps = UserRoadmapProgress::where('user_id', $user->id)
-            ->orderByDesc('updated_at')
+        $careers = \App\Models\Careers::with('phases')
+            ->where('is_published', true)
             ->get();
 
-        return response()->json([
-            'total'    => $roadmaps->count(),
-            'roadmaps' => $roadmaps,
-        ]);
+        $roadmapProgress = UserRoadmapProgress::where('user_id', $user->id)
+            ->get()
+            ->keyBy('roadmap_id');
+
+        $taskProgress = UserTaskProgress::where('user_id', $user->id)
+            ->get()
+            ->keyBy('task_id');
+
+        $result = $careers->map(function ($career) use ($roadmapProgress, $taskProgress) {
+            $steps = $career->phases->sortBy('sequence_num')->values()->map(function ($phase) use ($taskProgress) {
+                $progress = $taskProgress->get($phase->id);
+                $status = $progress->status ?? 'not_started';
+
+                return [
+                    'id'          => $phase->id,
+                    'title'       => $phase->title,
+                    'description' => $phase->description,
+                    'skills'      => $phase->skills ?? [],
+                    'progress'    => match ($status) {
+                        'completed'   => 100,
+                        'in_progress' => 50,
+                        default       => 0,
+                    },
+                    'completed'   => $status === 'completed',
+                ];
+            });
+
+            return [
+                'id'          => $career->id,
+                'title'       => $career->title,
+                'description' => $career->description,
+                'category'    => $career->category,
+                'steps'       => $steps,
+            ];
+        });
+
+        return response()->json($result);
     }
 }

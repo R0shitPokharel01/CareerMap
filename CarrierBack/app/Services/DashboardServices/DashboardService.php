@@ -4,6 +4,7 @@ namespace App\Services\DashboardServices;
 
 use App\Http\Controllers\User\UserProgressController;
 use App\Http\Controllers\User\UserAchievementsController;
+use App\Http\Controllers\NotificationController;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class DashboardService
     public function index(
         Request $request,
         UserProgressController $progressController,
-        UserAchievementsController $userAchievementsController
+        UserAchievementsController $userAchievementsController,
+        NotificationController $notificationController
     ) {
 
         return [
@@ -22,7 +24,7 @@ class DashboardService
             "roadmaps" => $progressController->allRoadmaps(),
             "tasks" => [],
             "achievements" => $userAchievementsController->earned(),
-            "notifications" => [],
+            "notifications" => $request->user()->notifications()->latest()->take(10)->get(),
             "daily_tip" => [
                 'Work smarter, not harder. Prioritize your tasks and focus on what truly matters.',
                 '"Stay organized and plan your day ahead. A well-structured schedule can boost productivity and reduce stress.',
