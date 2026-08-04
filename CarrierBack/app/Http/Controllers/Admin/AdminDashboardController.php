@@ -49,8 +49,7 @@ class AdminDashboardController extends Controller
                 ->get([
                     'id',
                     'title',
-                    'category',
-                    'difficulty'
+                    'category'
                 ])
 
         ]);

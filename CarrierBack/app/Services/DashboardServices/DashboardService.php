@@ -10,6 +10,31 @@ use Illuminate\Http\Request;
 
 class DashboardService
 {
+    private function dailyTip(): string
+    {
+        $tips = [
+
+            'Work smarter, not harder. Prioritize your tasks and focus on what truly matters.',
+
+            'Stay organized and plan your day ahead.',
+
+            'Take breaks to recharge your mind.',
+
+            'Embrace continuous learning.',
+
+            'Set clear goals and track your progress.',
+
+            'Practice mindfulness and meditation.',
+
+            'Collaborate and communicate effectively.',
+
+            'Stay positive and resilient.'
+
+        ];
+
+        return $tips[array_rand($tips)];
+    }
+
     public function index(
         Request $request,
         UserProgressController $progressController,
@@ -19,24 +44,20 @@ class DashboardService
 
         return [
             'message' => 'Dashboard data fetched successfully',
-            "user" => User::find($request->user()->id),
-            "summary" => $progressController->summary(),
-            "roadmaps" => $progressController->allRoadmaps(),
-            "tasks" => [],
-            "achievements" => $userAchievementsController->earned(),
-            "notifications" => $request->user()->notifications()->latest()->take(10)->get(),
-            "daily_tip" => [
-                'Work smarter, not harder. Prioritize your tasks and focus on what truly matters.',
-                '"Stay organized and plan your day ahead. A well-structured schedule can boost productivity and reduce stress.',
-                '"Take breaks to recharge your mind. Short breaks during work can improve focus and creativity.',
-                "Embrace continuous learning. Keep updating your skills and knowledge to stay ahead in your career.",
-                "Set clear goals and track your progress. This will help you stay motivated and achieve more in less time.",
-                "Practice mindfulness and meditation. A calm mind can enhance decision-making and problem-solving abilities.",
-                "Collaborate and communicate effectively. Teamwork can lead to innovative solutions and better outcomes.",
-                "Stay positive and resilient. Challenges are opportunities for growth and learning.",
-            ],
 
+            'user' => $request->user(),
 
+            'summary' => $progressController->summary()->getData(true),
+
+            'roadmaps' => $progressController->allRoadmaps()->getData(true),
+
+            'tasks' => [],
+
+            'achievements' => $userAchievementsController->earned()->getData(true),
+
+            'notifications' => [],
+
+            'daily_tip' => $this->dailyTip(),
         ];
     }
 }
