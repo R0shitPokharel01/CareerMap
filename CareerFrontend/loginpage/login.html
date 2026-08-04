@@ -1,59 +1,164 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
-    <title>CareerFlow Login</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="login.css" />
+
+    <title>Career Roadmap</title>
   </head>
 
   <body>
     <div class="container">
-      <div class="left">
-        <div class="brand">Career Roadmap</div>
+      <!-- ================= LEFT SIDE ================= -->
 
-        <img
-          src="https://images.unsplash.com/photo-1551288049-bebda4e38f71"
-          class="chart"
-        />
+      <div class="left-panel">
+        <div class="logo">🚀 <span>Career Roadmap</span></div>
+
+        <div class="hero-text">
+          <h1>
+            Your journey to a
+            <br />
+            stellar career starts
+            <br />
+            here.
+          </h1>
+
+          <p>
+            We map the complexities of the professional world into actionable
+            learning paths. Build skills, track progress, and achieve your dream
+            career.
+          </p>
+        </div>
+
+        <!-- Feature Cards -->
+
+        <div class="features">
+          <div class="feature-card">
+            <h3>📍 Personalized Roadmaps</h3>
+
+            <p>AI-powered career paths tailored to your goals.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>📈 Progress Tracking</h3>
+
+            <p>Track every milestone and stay motivated.</p>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+
+        <div class="hero-image">
+          <img
+            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800"
+            alt="Career Team"
+          />
+        </div>
       </div>
 
-      <div class="login">
-        <h1>Welcome back</h1>
-        <small>Sign in to continue your journey</small>
-        <br />
-        <div class="social-login">
-          <button>
-            <img src="https://www.google.com/favicon.ico" alt="Google" />
+      <!-- ================= RIGHT SIDE ================= -->
+
+      <div class="right-panel">
+        <div class="form-header">
+          <h2 id="formTitle">Create an Account</h2>
+
+          <p id="formSubtitle">Start your career roadmap journey today.</p>
+        </div>
+
+        <!-- Tabs -->
+
+        <div class="tabs">
+          <button id="loginTab">Login</button>
+
+          <button id="registerTab" class="active">Register</button>
+        </div>
+
+        <!-- Social Login -->
+
+        <div class="social-buttons">
+          <button class="social-btn">
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+            />
+
             Google
           </button>
 
-          <button>
+          <button class="social-btn">
             <img
-              src="https://github.githubassets.com/favicons/favicon.png"
-              alt="GitHub"
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
             />
+
             GitHub
           </button>
         </div>
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="name@company.com" />
 
-        <label>Password</label>
-        <div class="pass">
-          <input type="password" id="password" placeholder="••••••••" />
-          <span onclick="showPass()">👁</span>
+        <div class="divider">
+          <span>OR EMAIL</span>
         </div>
 
-        <div class="check">
-          <input type="checkbox" />
-          Stay signed in for 30 days
+        <!-- ================= FORM ================= -->
+
+        <form id="authForm">
+          <!-- Register Only -->
+
+          <div class="input-group register-field">
+            <label>Full Name</label>
+
+            <input type="text" id="name" placeholder="John Doe" />
+          </div>
+
+          <div class="input-group">
+            <label>Email Address</label>
+
+            <input type="email" id="email" placeholder="example@gmail.com" />
+          </div>
+
+          <div class="input-group">
+            <label>Password</label>
+
+            <div class="password-box">
+              <input type="password" id="password" placeholder="••••••••" />
+
+              <button type="button" id="togglePassword">👁</button>
+            </div>
+          </div>
+
+          <!-- Login Only -->
+
+          <div class="remember login-only">
+            <label>
+              <input type="checkbox" id="remember" />
+
+              Remember Me
+            </label>
+
+            <a href="#"> Forgot Password? </a>
+          </div>
+
+          <!-- API Message -->
+
+          <p id="message"></p>
+
+          <!-- Button -->
+
+          <button type="submit" id="submitBtn">Create Account</button>
+        </form>
+
+        <div class="footer-text">
+          <span id="footerMessage"> Already have an account? </span>
+
+          <a href="#" id="switchMode"> Login </a>
         </div>
-
-        <button class="signin" onclick="login()">Sign In</button>
-
-        <p class="signup">
-          Don't have an account?
-          <b>Create Account</b>
-        </p>
       </div>
     </div>
 
