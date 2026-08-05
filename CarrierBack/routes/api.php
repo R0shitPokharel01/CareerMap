@@ -66,6 +66,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/roadmaps/{roadmapId}/progress',       [ProgressController::class, 'roadmapProgress']);
     Route::get('/progress/summary',                    [ProgressController::class, 'summary']);
     Route::get('/progress/roadmaps',                   [ProgressController::class, 'allRoadmaps']);
+    
+    Route::post('/phases/{phaseId}/start',     [ProgressController::class, 'startTask']);
+    Route::post('/phases/{phaseId}/complete',  [ProgressController::class, 'completeTask']);
+    Route::get('/careers/{careerId}/progress', [ProgressController::class, 'roadmapProgress']);
+    Route::get('/progress/summary',            [ProgressController::class, 'summary']);
+    Route::get('/progress/roadmaps',           [ProgressController::class, 'allRoadmaps']);
 
 
 
@@ -115,4 +121,4 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/careers', [CareerController::class, 'all']);
 
 //     for updating career
-Route::put('/careers/update-career/{careerID}', [CareerController::class, 'update']);
+// Route::put('/careers/update-career/{careerID}', [CareerController::class, 'update']);
