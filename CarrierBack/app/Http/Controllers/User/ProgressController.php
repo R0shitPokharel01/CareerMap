@@ -16,44 +16,50 @@ class ProgressController extends Controller
         private ProgressService $progressService
     ) {}
 
-    public function startTask(Request $request, int $taskId): JsonResponse
+    // ✅ REPLACE startTask with this
+    public function startTask(Request $request, int $phaseId): JsonResponse
     {
-        $request->validate(['roadmap_id' => 'required|integer']);
+        $request->validate(['career_id' => 'required|integer']);
         $user = Auth::user();
-        $task = $this->progressService->startTask($user, $taskId, $request->roadmap_id);
-        return response()->json(['message' => 'Task started.', 'task' => $task]);
+        $task = $this->progressService->startTask($user, $phaseId, $request->career_id);
+        return response()->json(['message' => 'Phase started.', 'task' => $task]);
     }
 
-    public function completeTask(Request $request, int $taskId): JsonResponse
+    // ✅ REPLACE completeTask with this
+    public function completeTask(Request $request, int $phaseId): JsonResponse
     {
-        $request->validate(['roadmap_id' => 'required|integer']);
-        $user = Auth::user();
-        $task = $this->progressService->completeTask($user, $taskId, $request->roadmap_id);
-        $roadmapProgress = UserRoadmapProgress::where('user_id', $user->id)
-                            ->where('roadmap_id', $request->roadmap_id)->first();
+        $request->validate(['career_id' => 'required|integer']);
+        $user     = Auth::user();
+        $task     = $this->progressService->completeTask($user, $phaseId, $request->career_id);
+        $progress = UserRoadmapProgress::where('user_id', $user->id)
+                        ->where('roadmap_id', $request->career_id)
+                        ->first();
         return response()->json([
-            'message'          => 'Task completed!',
-            'task'             => $task,
-            'roadmap_progress' => $roadmapProgress,
+            'message'         => 'Phase completed!',
+            'task'            => $task,
+            'career_progress' => $progress,
         ]);
     }
 
-    public function roadmapProgress(int $roadmapId): JsonResponse
+    // ✅ REPLACE roadmapProgress with this
+    public function roadmapProgress(int $careerId): JsonResponse
     {
         $user     = Auth::user();
         $progress = UserRoadmapProgress::where('user_id', $user->id)
-                        ->where('roadmap_id', $roadmapId)->first();
+                        ->where('roadmap_id', $careerId)->first();
         $tasks    = UserTaskProgress::where('user_id', $user->id)
-                        ->where('roadmap_id', $roadmapId)->get();
+                        ->where('roadmap_id', $careerId)->get();
         return response()->json([
-            'roadmap_id'       => $roadmapId,
+            'career_id'        => $careerId,
             'percent_complete' => $progress?->percent_complete ?? 0,
             'status'           => $progress?->status ?? 'not_started',
             'started_at'       => $progress?->started_at,
             'completed_at'     => $progress?->completed_at,
-            'tasks'            => $tasks,
+            'phases_progress'  => $tasks,
         ]);
     }
+
+    // ── Keep these two unchanged ───────────────────────────────────────────
 
     public function summary(): JsonResponse
     {
@@ -67,6 +73,9 @@ class ProgressController extends Controller
         $user     = Auth::user();
         $roadmaps = UserRoadmapProgress::where('user_id', $user->id)
                         ->orderByDesc('updated_at')->get();
-        return response()->json(['total' => $roadmaps->count(), 'roadmaps' => $roadmaps]);
+        return response()->json([
+            'total'    => $roadmaps->count(),
+            'roadmaps' => $roadmaps,
+        ]);
     }
 }

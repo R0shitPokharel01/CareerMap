@@ -55,9 +55,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //for user acheivements endpoints
    Route::get('/user/achievements/earned', [UserAchievementController::class, 'earned']);
-
-Route::get('/user/achievements',        [UserAchievementController::class, 'index']);
-Route::post('/user/achievements/check', [UserAchievementController::class, 'check']);
+    Route::get('/user/achievements',        [UserAchievementController::class, 'index']);
+    Route::post('/user/achievements/check', [UserAchievementController::class, 'check']);
 
     //for user progress endpoints
     Route::post('/tasks/{taskId}/start',               [ProgressController::class, 'startTask']);
@@ -65,6 +64,12 @@ Route::post('/user/achievements/check', [UserAchievementController::class, 'chec
     Route::get('/roadmaps/{roadmapId}/progress',       [ProgressController::class, 'roadmapProgress']);
     Route::get('/progress/summary',                    [ProgressController::class, 'summary']);
     Route::get('/progress/roadmaps',                   [ProgressController::class, 'allRoadmaps']);
+    
+    Route::post('/phases/{phaseId}/start',     [ProgressController::class, 'startTask']);
+    Route::post('/phases/{phaseId}/complete',  [ProgressController::class, 'completeTask']);
+    Route::get('/careers/{careerId}/progress', [ProgressController::class, 'roadmapProgress']);
+    Route::get('/progress/summary',            [ProgressController::class, 'summary']);
+    Route::get('/progress/roadmaps',           [ProgressController::class, 'allRoadmaps']);
 
 
 
@@ -112,4 +117,4 @@ Route::post('/user/achievements/check', [UserAchievementController::class, 'chec
 Route::get('/careers', [CareerController::class, 'all']);
 
 //     for updating career
-Route::put('/careers/update-career/{careerID}', [CareerController::class, 'update']);
+// Route::put('/careers/update-career/{careerID}', [CareerController::class, 'update']);
