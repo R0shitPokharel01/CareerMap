@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Career Achievements</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+  <link rel="stylesheet" href="achievements.css" />
+  </head>
+
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <div>
+          <div class="logo">
+            <h2>Career Roadmap</h2>
+            <span>Early-Career Navigator</span>
+          </div>
+
+          <nav id="sidebarMenu"></nav>
+        </div>
+
+        <div class="sidebar-footer">
+          <div class="profile">
+            <img
+              id="sidebarAvatar"
+              src="https://i.pravatar.cc/100"
+              alt="User profile"
+            />
+            <div>
+              <h4 id="userName">User</h4>
+              <small id="userRole">Member</small>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="content">
+        <header class="topbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input
+              type="search"
+              id="searchInput"
+              placeholder="Search achievements..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="top-actions">
+            <button class="icon-btn" id="notificationBtn" type="button">
+              <i class="fa-regular fa-bell"></i>
+            </button>
+            <button class="action-btn" id="refreshBtn" type="button">
+              <i class="fa-solid fa-rotate"></i>
+              <span>Refresh</span>
+            </button>
+            <button class="action-btn primary" id="checkBtn" type="button">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>Check New</span>
+            </button>
+          </div>
+        </header>
+
+        <section class="page-heading">
+          <h1>Your Achievements</h1>
+          <p>
+            View earned badges, track locked achievements and collect points as
+            you complete roadmaps and learning tasks.
+          </p>
+        </section>
+
+        <section class="summary-grid" id="summaryContainer"></section>
+
+        <section class="featured-card" id="featuredCard">
+          <div class="featured-icon">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="featured-content">
+            <div class="featured-label">
+              <i class="fa-solid fa-star"></i>
+              Latest achievement
+            </div>
+            <h2 id="featuredTitle">No achievement earned yet</h2>
+            <p id="featuredDescription">
+              Complete roadmap tasks to unlock your first achievement.
+            </p>
+          </div>
+          <div class="featured-points">
+            <strong id="featuredPoints">0</strong>
+            <span>points</span>
+          </div>
+        </section>
+
+        <section>
+          <div class="section-toolbar">
+            <div>
+              <h2>Achievement Collection</h2>
+              <p id="resultText">Loading achievements...</p>
+            </div>
+
+            <div class="filter-group" id="filterGroup">
+              <button class="filter-btn active" data-filter="all" type="button">
+                All
+              </button>
+              <button class="filter-btn" data-filter="earned" type="button">
+                Earned
+              </button>
+              <button class="filter-btn" data-filter="locked" type="button">
+                Locked
+              </button>
+            </div>
+          </div>
+
+          <div class="achievement-grid" id="achievementContainer"></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <template id="menuTemplate">
+      <a href="#">
+        <i></i>
+        <span></span>
+      </a>
+    </template>
+
+    <template id="summaryTemplate">
+      <article class="summary-card">
+        <div class="summary-icon"><i></i></div>
+        <h4></h4>
+        <h2></h2>
+        <p></p>
+      </article>
+    </template>
+
+    <template id="achievementTemplate">
+      <article class="achievement-card">
+        <div class="achievement-top">
+          <div class="achievement-icon"><i></i></div>
+          <span class="status-badge"></span>
+        </div>
+
+        <h3 class="achievement-title"></h3>
+        <p class="achievement-description"></p>
+
+        <div class="criteria-box"></div>
+
+        <div class="progress-track">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="progress-label">
+          <span class="progress-text"></span>
+          <span class="progress-percent"></span>
+        </div>
+
+        <div class="achievement-footer">
+          <span class="points">
+            <i class="fa-solid fa-star"></i>
+            <span class="point-value"></span>
+          </span>
+          <span class="earned-date"></span>
+        </div>
+      </article>
+    </template>
+
+<script src="achievements.js" ></script>
+  </body>
+</html>
