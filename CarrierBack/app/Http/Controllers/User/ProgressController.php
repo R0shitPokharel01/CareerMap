@@ -16,7 +16,6 @@ class ProgressController extends Controller
         private ProgressService $progressService
     ) {}
 
-    // ✅ REPLACE startTask with this
     public function startTask(Request $request, int $phaseId): JsonResponse
     {
         $request->validate(['career_id' => 'required|integer']);
@@ -25,7 +24,6 @@ class ProgressController extends Controller
         return response()->json(['message' => 'Phase started.', 'task' => $task]);
     }
 
-    // ✅ REPLACE completeTask with this
     public function completeTask(Request $request, int $phaseId): JsonResponse
     {
         $request->validate(['career_id' => 'required|integer']);
@@ -41,7 +39,7 @@ class ProgressController extends Controller
         ]);
     }
 
-    // ✅ REPLACE roadmapProgress with this
+  
     public function roadmapProgress(int $careerId): JsonResponse
     {
         $user     = Auth::user();
@@ -58,8 +56,6 @@ class ProgressController extends Controller
             'phases_progress'  => $tasks,
         ]);
     }
-
-    // ── Keep these two unchanged ───────────────────────────────────────────
 
     public function summary(): JsonResponse
     {
