@@ -3,240 +3,177 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Career Roadmap Dashboard</title>
+    <title>Career Dashboard</title>
 
-    <link rel="stylesheet" href="dashboard.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="aside.css" /><link rel="stylesheet" href="dashboard.css" />
+
+    
   </head>
 
   <body>
-    <div class="sidebar">
-      <div class="logo">
-        <h2>Career Roadmap</h2>
-        <br />
-        <p>Early-Career Navigator</p>
-      </div>
-
-      <div class="menu active">
-        <img
-          src="https://img.icons8.com/fluency/48/dashboard-layout.png"
-          class="menu-icon"
-        />
-        <span>Dashboard</span>
-      </div>
-
-      <div class="menu">
-        <img
-          src="https://img.icons8.com/fluency/48/road.png"
-          class="menu-icon"
-        />
-        <span>Roadmaps</span>
-      </div>
-
-      <div class="menu">
-        <img
-          src="https://img.icons8.com/fluency/48/combo-chart.png"
-          class="menu-icon"
-        />
-        <span>Progress</span>
-      </div>
-
-      <div class="menu">
-        <img
-          src="https://img.icons8.com/fluency/48/trophy.png"
-          class="menu-icon"
-        />
-        <span>Achievements</span>
-      </div>
-
-      <div class="menu">
-        <img
-          src="https://img.icons8.com/fluency/48/idea.png"
-          class="menu-icon"
-        />
-        <span>Recommendations</span>
-      </div>
-
-      <div class="menu">
-        <img
-          src="https://img.icons8.com/fluency/48/user-male-circle.png"
-          class="menu-icon"
-        />
-        <span>Profile</span>
-      </div>
-
-      <div class="menu logout">
-        <img
-          src="https://img.icons8.com/fluency/48/logout-rounded-left.png"
-          class="menu-icon"
-        />
-        <span>Logout</span>
-      </div>
-      <div class="profile">
-        <div class="avatar">
-          <img
-            src="https://i.pravatar.cc/150?img=32"
-            alt="Profile"
-            class="avatar"
-          />
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <h2>Career Roadmap</h2>
+          <span>Early-Career Navigator</span>
         </div>
 
+        <nav id="sidebarMenu"></nav>
+
+        <div class="sidebar-footer">
+          <div class="profile">
+            <img src="https://i.pravatar.cc/80" alt="profile" />
+            <div>
+              <h4 id="userName">Loading...</h4>
+              <small id="userRole">Member</small>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main">
+        <!-- Topbar -->
+        <header class="topbar">
+          <div class="search">
+            <i class="fa fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search roadmaps, skills or topics..."
+            />
+          </div>
+
+          <div class="top-actions">
+            <div class="btn-wrap">
+              <button id="bellBtn">
+                <i class="fa-regular fa-bell"></i>
+              </button>
+              <span id="notifBadge" class="badge-dot">0</span>
+            </div>
+
+            <div class="btn-wrap"></div>
+          </div>
+        </header>
+
+        <!-- Hero -->
+        <section class="hero">
+          <div class="welcome-card">
+            <h1 id="welcomeTitle">Welcome Back</h1>
+            <p id="welcomeText">Loading...</p>
+            <button id="resumeBtn">Resume Learning</button>
+          </div>
+
+          <div class="tip-card">
+            <h3>Daily Career Tip</h3>
+            <p id="dailyTip">Loading...</p>
+          </div>
+        </section>
+
+        <!-- Stats -->
+        <section id="statsContainer" class="stats-grid"></section>
+
+        <!-- Content -->
+        <section class="content-grid">
+          <div class="activity">
+            <div class="section-header">
+              <h2>Weekly Activity</h2>
+              <select id="chartRange">
+                <option value="7">Last 7 Days</option>
+                <option value="30">Last 30 Days</option>
+              </select>
+            </div>
+
+            <canvas id="activityChart"></canvas>
+            <div id="activityEmpty" class="empty-state" style="display: none">
+              <i class="fa-solid fa-chart-line"></i>
+              <p>
+                No activity yet. Complete a task to start building your weekly
+                streak chart.
+              </p>
+            </div>
+          </div>
+
+          <aside>
+            <div class="tasks">
+              <h2>Upcoming Tasks</h2>
+              <div id="taskList"></div>
+            </div>
+
+            <div class="achievements-panel">
+              <h2>Recent Achievements</h2>
+              <div id="achievementContainer"></div>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+
+    <!-- Floating Button -->
+    <button id="floatingBtn">
+      <i class="fa fa-plus"></i>
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"></div>
+
+    <!-- Sidebar Template -->
+    <template id="menuTemplate">
+      <a href="#">
+        <i></i>
+        <span></span>
+      </a>
+    </template>
+
+    <!-- Stats Template -->
+    <template id="statTemplate">
+      <div class="stat-card">
+        <div class="icon">
+          <i></i>
+        </div>
+        <h4></h4>
+        <h2></h2>
+        <div class="sub"></div>
+        <div class="progress">
+          <div class="fill"></div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Task Template -->
+    <template id="taskTemplate">
+      <div class="task">
+        <input type="checkbox" />
         <div>
-          <b>Shreeya Neupane</b>
-          <p>Junior Developer</p>
+          <h4></h4>
+          <small></small>
         </div>
       </div>
-    </div>
+    </template>
 
-    <div class="main">
-      <!-- Search -->
-      <div class="search">
-        <img
-          src="https://img.icons8.com/fluency/48/search.png"
-          class="search-icon"
-          alt=""
-        />
-        Search roadmaps, skills, or topics...
-      </div>
-
-      <div class="content">
-        <div class="left">
-          <div class="welcome">
-            <h1>Welcome back, Shreeya!</h1>
-
-            <p>
-              You're making great progress. You've completed 75% of your
-              "Frontend Mastery" roadmap. Keep the momentum going!
-            </p>
-
-            <button>Resume Learning</button>
-          </div>
-
-          <div class="cards">
-            <div class="box">
-              <div class="small">
-                <img
-                  src="https://img.icons8.com/fluency/48/combo-chart.png"
-                  alt="Progress"
-                />
-              </div>
-
-              <h4>OVERALL PROGRESS</h4>
-
-              <h1>68.4%</h1>
-
-              <div class="progress">
-                <div></div>
-              </div>
-            </div>
-
-            <div class="box">
-              <div class="small">
-                <img
-                  src="https://img.icons8.com/fluency/48/graduation-cap.png"
-                  alt="Courses"
-                />
-              </div>
-
-              <h4>ACTIVE COURSES</h4>
-
-              <h2>Advanced React & UI</h2>
-            </div>
-          </div>
-        </div>
-
-        <div class="right">
-          <div class="tip">
-            <h3>
-              <h3>
-                <img
-                  src="https://img.icons8.com/fluency/48/idea.png"
-                  class="tip-icon"
-                  alt="Idea"
-                />
-                DAILY CAREER TIP
-              </h3>
-            </h3>
-
-            <p>
-              "Consistent small steps lead to massive career jumps. Dedicate
-              just 20 minutes today to review your portfolio."
-            </p>
-
-            <a href="#">Read more tips</a>
-          </div>
-
-          <div class="tasks">
-            <h2>Upcoming Tasks</h2>
-
-            <label>
-              <input type="checkbox" />
-              <b>Complete HTML Lesson</b><br />
-              <small>Due: Today, 2:00 PM</small>
-            </label>
-
-            <label>
-              <input type="checkbox" />
-              <b>Optimize SQL Queries</b><br />
-              <small>Due: Tomorrow, 10:00 AM</small>
-            </label>
-
-            <button class="add">+ Add New Task</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="dashboard-section">
-        <div class="activity-card">
-          <div class="card-header">
-            <h2>Weekly Activity</h2>
-
-            <select id="days">
-              <option>Last 7 Days</option>
-              <option>Last 30 Days</option>
-            </select>
-          </div>
-
-          <canvas id="activityChart"></canvas>
-        </div>
-
-        <div class="skill-card">
-          <h2>Suggested Skills</h2>
-
-          <div class="skills">
-            <span>JavaScript</span>
-            <span>Next.js</span>
-            <span>System Design</span>
-            <span> CSS</span>
-            <span>Soft Skills</span>
-            <span>Node.js</span>
-            <span>Git & GitHub</span>
-            <span>Python</span>
-            <span>Java</span>
-            <span>UI/UX Design</span>
-            <span>Problem Solving</span>
-            <span>Communication</span>
-          </div>
-        </div>
-      </div>
-
-      <footer>
-        <div class="footer-left">
-          <h3>Career Roadmap</h3>
-
-          <p>© 2024 Career Roadmap System. All rights reserved.</p>
-        </div>
-
-        <div class="footer-right">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">Help Center</a>
-        </div>
-      </footer>
-    </div>
-
-    <button class="float">+</button>
-
-    <script src="dashboard.js"></script>
+    <!-- Achievement Template -->
+    <template id="achievementTemplate">
+      <span class="skill">
+        <i class="fa-solid fa-trophy"></i>
+        <span class="skill-label"></span>
+      </span>
+    </template>
+    <script src="aside.js"></script>
+   <script src="dashboard.js"></script>
   </body>
 </html>
