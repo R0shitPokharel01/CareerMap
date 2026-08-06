@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // for dashboard
     Route::get('/user/dashboard', [DashboardController::class, 'index']);
+    Route::put('/user/dashboard', [DashboardController::class, 'updateProfile']);
 
 
     //  for career search
@@ -106,7 +107,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/admin/users/{id}', [UserController::class, 'getUserById']);
 
         Route::get('/admin/dashboard', [AdminDashboardController::class, 'index']);
-
+        Route::post('/admin/notifications/send', [NotificationController::class, 'send']);
         // for admin achievement endpoints
         Route::get('/achievements/stats',              [AdminAchievementController::class, 'stats']);
         Route::post('/achievements',                   [AdminAchievementController::class, 'store']);

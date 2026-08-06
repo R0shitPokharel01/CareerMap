@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Achivements;
 use App\Models\User;
+use App\Models\Careeers;
+use App\Models\Careers;
 use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller

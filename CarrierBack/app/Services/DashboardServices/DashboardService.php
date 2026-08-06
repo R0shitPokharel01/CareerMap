@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserProgressController;
 use App\Http\Controllers\User\UserAchievementsController;
 use App\Http\Controllers\NotificationController;
 use App\Models\User;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
 class DashboardService
@@ -56,11 +57,50 @@ class DashboardService
 
             'tasks' => [],
 
-            'achievements' => $userAchievementsController->earned()->getData(true),
+            'achievements' => $userAchievementsController->earned($request)->getData(true),
 
             'notifications' => [],
 
             'daily_tip' => $this->dailyTip(),
+        ];
+    }
+    public function updateProfile(Request $request)
+    {
+        $user = $request->user();
+
+        $validated = $request->validate([
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+
+            'phone' => [
+                'nullable',
+                'string',
+                'max:20',
+            ],
+        ]);
+
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'phone' => $validated['phone'] ?? null,
+        ]);
+
+        return [
+            'status' => 'success',
+            'message' => 'Profile updated successfully.',
+            'data' => [
+                'user' => $user->fresh(),
+            ],
         ];
     }
 }
