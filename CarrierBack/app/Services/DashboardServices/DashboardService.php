@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardService
+
 {
     private function dailyTip(): string
     {
@@ -41,6 +42,8 @@ class DashboardService
         UserAchievementsController $userAchievementsController,
         NotificationController $notificationController
     ) {
+
+
 
         return [
             'message' => 'Dashboard data fetched successfully',

@@ -1,0 +1,89 @@
+.sidebar {
+  background: #fff;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 28px 22px;
+  height: 100vh;
+}
+
+.content-grid aside {
+  position: sticky;
+  top: 30px;
+  align-self: start;
+  max-height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.logo h2 {
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.logo span {
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+#sidebarMenu {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+#sidebarMenu a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 18px;
+  border-radius: 14px;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+#sidebarMenu a i {
+  width: 20px;
+  color: var(--primary);
+}
+
+#sidebarMenu a:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+#sidebarMenu a.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+#sidebarMenu a.active i {
+  color: #fff;
+}
+
+.sidebar-footer {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile h4 {
+  font-size: 15px;
+}
+
+.profile small {
+  color: var(--text-light);
+}
