@@ -45,4 +45,9 @@ class Careers extends Model
     {
         return $this->hasMany(Phases::class, 'career_id');
     }
+
+    public function userProgress()
+    {
+        return $this->hasMany(UserRoadmapProgress::class, 'career_id');
+    }
 }

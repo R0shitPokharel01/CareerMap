@@ -7,15 +7,8 @@ use App\Models\Achivements;
 use App\Models\UserAchievements;
 use App\Services\AchievementService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-/**
- * User Achievements Controller
- * user can:
- * -see all achievements with earned/locked status
- * -see only their earned achievements
- * -trigger a check after completing a task
- */
 class UserAchievementsController extends Controller
 {
     public function __construct(
@@ -23,53 +16,78 @@ class UserAchievementsController extends Controller
     ) {}
 
     // GET /api/user/achievements
-    // All achievements - earned ones show unlocked, rest show locked
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $user = Auth::user();
+        $user = $request->user();
 
-        $earnedMap = UserAchievements::where('user_id', $user->id)
+        $earnedMap = UserAchievements::query()
+            ->where('user_id', $user->id)
             ->pluck('earned_at', 'achievement_id');
 
-        $achievements = Achivements::active()->get()->map(fn($a) => [
-            'id' => $a->id,
-            'title' => $a->title,
-            'description' => $a->description,
-            'icon' => $a->icon,
-            'color' => $a->color,
-            'points' => $a->points,
-            'is_earned' => $earnedMap->has($a->id),
-            'earned_at' => $earnedMap->get($a->id),
-        ]);
+        $achievements = Achivements::query()
+            ->where('is_active', true)
+            ->get()
+            ->map(function ($achievement) use ($earnedMap) {
+                return [
+                    'id' => $achievement->id,
+                    'name' => $achievement->name,
+                    'description' => $achievement->description,
+                    'icon' => $achievement->icon,
+                    'points' => (int) $achievement->points,
+                    'is_active' => (bool) $achievement->is_active,
+                    'is_earned' => $earnedMap->has(
+                        $achievement->id
+                    ),
+                    'earned_at' => $earnedMap->get(
+                        $achievement->id
+                    ),
+                ];
+            });
 
         return response()->json([
             'total' => $achievements->count(),
-            'earned' => $achievements->where('is_earned', true)->count(),
-            'locked' => $achievements->where('is_earned', false)->count(),
+
+            'earned' => $achievements
+                ->where('is_earned', true)
+                ->count(),
+
+            'locked' => $achievements
+                ->where('is_earned', false)
+                ->count(),
+
             'data' => $achievements->values(),
         ]);
     }
 
     // GET /api/user/achievements/earned
-    // Only earned achievements - used on the profile page
-    public function earned(): JsonResponse
+    public function earned(Request $request): JsonResponse
     {
-        $user = Auth::user();
+        $user = $request->user();
 
-        $earnedRecords = UserAchievements::with('achievement')
+        $earnedRecords = UserAchievements::with(
+            'achievement'
+        )
             ->where('user_id', $user->id)
             ->orderByDesc('earned_at')
             ->get();
 
-        $earned = $earnedRecords->map(fn($ua) => [
-            'id' => $ua->achievement->id,
-            'title' => $ua->achievement->title,
-            'description' => $ua->achievement->description,
-            'icon' => $ua->achievement->icon,
-            'color' => $ua->achievement->color,
-            'points' => $ua->achievement->points,
-            'earned_at' => $ua->earned_at,
-        ]);
+        $earned = $earnedRecords
+            ->filter(function ($record) {
+                return $record->achievement !== null;
+            })
+            ->map(function ($record) {
+                return [
+                    'id' => $record->achievement->id,
+                    'name' => $record->achievement->name,
+                    'description' =>
+                    $record->achievement->description,
+                    'icon' => $record->achievement->icon,
+                    'points' =>
+                    (int) $record->achievement->points,
+                    'earned_at' => $record->earned_at,
+                ];
+            })
+            ->values();
 
         return response()->json([
             'total' => $earned->count(),
@@ -79,22 +97,33 @@ class UserAchievementsController extends Controller
     }
 
     // POST /api/user/achievements/check
-    // Trigger achievement check - call this after user completes a task
-    public function check(): JsonResponse
+    public function check(Request $request): JsonResponse
     {
-        $user = Auth::user();
-        $newlyEarned = $this->achievementService->checkAndAward($user);
+        $user = $request->user();
+
+        $newlyEarned =
+            $this->achievementService->checkAndAward($user);
+
+        $achievements = collect($newlyEarned)
+            ->map(function ($achievement) {
+                return [
+                    'id' => $achievement->id,
+                    'name' => $achievement->name,
+                    'description' =>
+                    $achievement->description,
+                    'icon' => $achievement->icon,
+                    'points' => (int) $achievement->points,
+                ];
+            })
+            ->values();
 
         return response()->json([
-            'message' => count($newlyEarned) > 0 ? count($newlyEarned) . ' new achievement(s) earned!' : 'No new achievements at this time.',
-            'newly_earned' => collect($newlyEarned)->map(fn($a) => [
-                'id' => $a->id,
-                'title'       => $a->title,
-                'description' => $a->description,
-                'icon'        => $a->icon,
-                'color'       => $a->color,
-                'points'      => $a->points,
-            ]),
+            'message' => $achievements->isNotEmpty()
+                ? $achievements->count() .
+                ' new achievement(s) earned!'
+                : 'No new achievements at this time.',
+
+            'newly_earned' => $achievements,
         ]);
     }
 }

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardService
+
 {
     public function index(
         Request $request,
@@ -15,13 +16,15 @@ class DashboardService
         UserAchievementsController $userAchievementsController
     ) {
 
+
+
         return [
             'message' => 'Dashboard data fetched successfully',
             "user" => User::find($request->user()->id),
             "summary" => $progressController->summary(),
             "roadmaps" => $progressController->allRoadmaps(),
             "tasks" => [],
-            "achievements" => $userAchievementsController->earned(),
+            "achievements" => $userAchievementsController->earned($request),
             "notifications" => [],
             "daily_tip" => [
                 'Work smarter, not harder. Prioritize your tasks and focus on what truly matters.',
