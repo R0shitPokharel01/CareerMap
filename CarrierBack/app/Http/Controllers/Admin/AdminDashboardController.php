@@ -28,6 +28,25 @@ class AdminDashboardController extends Controller
                 'admin_users' => User::where('role', 'admin')->count(),
                 'total_achievements' => Achivements::count(),
             ],
+
+            'recent_users' => User::latest()
+                ->take(5)
+                ->get([
+                    'id',
+                    'name',
+                    'email',
+                    'role',
+                    'created_at'
+                ]),
+
+            'recent_careers' => Careers::latest()
+                ->take(5)
+                ->get([
+                    'id',
+                    'title',
+                    'category'
+                ])
+
         ]);
     }
 }
