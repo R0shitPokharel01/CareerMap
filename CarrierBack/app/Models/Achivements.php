@@ -12,18 +12,14 @@ class Achivements extends Model
     protected $table = 'achievements';
 
     protected $fillable = [
-        'title',
+        'name',
         'description',
         'icon',
-        'color',
-        'type',
-        'condition',
         'points',
         'is_active',
     ];
 
     protected $casts = [
-        'condition' => 'array',
         'is_active' => 'boolean',
         'points' => 'integer',
     ];
@@ -31,7 +27,12 @@ class Achivements extends Model
     //All the users who earned this achievement
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_achievements')
+        return $this->belongsToMany(
+            User::class,
+            'user_achievements',
+            'achievement_id',
+            'user_id'
+        )
             ->withPivot('earned_at')
             ->withTimestamps();
     }

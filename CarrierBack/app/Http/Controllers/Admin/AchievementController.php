@@ -31,23 +31,22 @@ class AchievementController extends Controller
     }
 
     // POST /api/admin/achievements
-    public function store(Request $request): JsonResponse
+
+    public function store(Request $request)
     {
-        $data = $request->validate([
-            'title'       => 'required|string|max:100',
-            'description' => 'required|string|max:500',
-            'icon'        => 'required|string|max:50',
-            'color'       => 'required|string|max:7',
-            'type'        => 'required|in:task_completion,roadmap_completion,roadmap_progress,streak,profile_complete',
-            'condition'   => 'required|array',
-            'points'      => 'sometimes|integer|min:1|max:1000',
-            'is_active'   => 'sometimes|boolean',
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'icon' => ['nullable', 'string', 'max:255'],
+            'colour' => ['required', 'string', 'max:20'],
+            'points' => ['required', 'integer', 'min:0'],
+            'is_active' => ['required', 'boolean'],
         ]);
 
-        $achievement = Achivements::create($data);
+        $achievement = Achivements::create($validated);
 
         return response()->json([
-            'message'     => 'Achievement created successfully.',
+            'message' => 'Achievement created successfully.',
             'achievement' => $achievement,
         ], 201);
     }
@@ -64,23 +63,20 @@ class AchievementController extends Controller
     }
 
     // PUT /api/admin/achievements/{id}
-    public function update(Request $request, Achivements $achievement): JsonResponse
+    public function update(Request $request, Achivements $achievement)
     {
-        $data = $request->validate([
-            'title'       => 'sometimes|string|max:100',
-            'description' => 'sometimes|string|max:500',
-            'icon'        => 'sometimes|string|max:50',
-            'color'       => 'sometimes|string|max:7',
-            'type'        => 'sometimes|in:task_completion,roadmap_completion,roadmap_progress,streak,profile_complete',
-            'condition'   => 'sometimes|array',
-            'points'      => 'sometimes|integer|min:1|max:1000',
-            'is_active'   => 'sometimes|boolean',
+        $validated = $request->validate([
+            'name' => ['sometimes', 'required', 'string', 'max:255'],
+            'description' => ['sometimes', 'required', 'string'],
+            'icon' => ['nullable', 'string', 'max:255'],
+            'points' => ['sometimes', 'required', 'integer', 'min:0'],
+            'is_active' => ['sometimes', 'required', 'boolean'],
         ]);
 
-        $achievement->update($data);
+        $achievement->update($validated);
 
         return response()->json([
-            'message'     => 'Achievement updated successfully.',
+            'message' => 'Achievement updated successfully.',
             'achievement' => $achievement,
         ]);
     }

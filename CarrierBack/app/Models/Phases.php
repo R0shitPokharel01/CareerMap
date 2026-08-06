@@ -30,4 +30,10 @@ class Phases extends Model
     {
         return $this->hasMany(Resources::class, 'phase_id');
     }
+
+
+    public function userProgress()
+    {
+        return $this->hasMany(Usertaskprogress::class, 'phase_id');
+    }
 }

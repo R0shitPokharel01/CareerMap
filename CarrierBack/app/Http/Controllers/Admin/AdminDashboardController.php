@@ -3,56 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Achivements;
 use App\Models\User;
-use App\Models\Achievement;
-use App\Models\Careers;
-use App\Models\UserAchievements;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AdminDashboardController extends Controller
 {
-
-
-    public function dashboard()
+    public function index(Request $request)
     {
+        $admin = $request->user();
+
         return response()->json([
-
-            'message' => 'Dashboard data fetched successfully',
-
-            'admin' => Auth::user(),
-
-            'summary' => [
-
-                'users' => User::count(),
-
-                'careers' => Careers::count(),
-
-                'roadmaps' => Careers::count(),
-
-                'achievements' => UserAchievements::count(),
-
+            'admin' => [
+                'id' => $admin->id,
+                'name' => $admin->name,
+                'email' => $admin->email,
+                'role' => $admin->role,
+                'avatar' => $admin->avatar ?? null,
             ],
 
-            'recent_users' => User::latest()
-                ->take(5)
-                ->get([
-                    'id',
-                    'name',
-                    'email',
-                    'role',
-                    'created_at'
-                ]),
-
-            'recent_careers' => Careers::latest()
-                ->take(5)
-                ->get([
-                    'id',
-                    'title',
-                    'category',
-                    'difficulty'
-                ])
-
+            'summary' => [
+                'total_users' => User::count(),
+                'active_users' => User::count(),
+                'admin_users' => User::where('role', 'admin')->count(),
+                'total_achievements' => Achivements::count(),
+            ],
         ]);
     }
 }
